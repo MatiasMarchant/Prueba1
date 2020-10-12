@@ -1,5 +1,5 @@
 syntax = "proto3";
-package ordencliente;
+package chat;
 
 message OrdenCliente {
     string id = 1;
@@ -10,6 +10,6 @@ message OrdenCliente {
     bool prioritario = 6;
 }
 
-service OrdenClienteService {
+service ChatService {
     rpc RedecirOrden(OrdenCliente) returns (OrdenCliente) {}
 }

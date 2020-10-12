@@ -1,4 +1,4 @@
-package ordencliente
+package chat
 
 import (
 	"log"
@@ -10,7 +10,8 @@ type Server struct {
 }
 
 func (s *Server) RedecirOrden(ctx context.Context, message *OrdenCliente) (*OrdenCliente, error) {
-	log.Printf("Recibi orden de cliente:")
+	log.Printf("Recibi la orden")
+	log.Printf("")
 	log.Printf("Producto: %s", message.Producto)
-	return &OrdenCliente{Producto: "m qro matar!"}, nil
+	return , nil
 }

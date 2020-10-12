@@ -13,7 +13,11 @@ func main() {
 		log.Fatalf("Falle al escuchar puerto 9000: %v", err)
 	}
 
+	s := ordencliente.Server{}
+
 	grpcServer := grpc.NewServer()
+
+	chat.RegisterChatServiceServer(grpcServer, &s)
 
 	if err := grpcServer.Serve(lis); err != nil {
 		log.Fatalf("Falle siendo un servidor gRPC en el puerto 9000: %v", err)
