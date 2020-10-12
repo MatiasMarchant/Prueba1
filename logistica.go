@@ -4,6 +4,7 @@ import (
 	"log"
 	"net"
 
+	"github.com/MatiasMarchant/Prueba1/chat"
 	"google.golang.org/grpc"
 )
 
@@ -13,7 +14,7 @@ func main() {
 		log.Fatalf("Falle al escuchar puerto 9000: %v", err)
 	}
 
-	s := ordencliente.Server{}
+	s := chat.Server{}
 
 	grpcServer := grpc.NewServer()
 

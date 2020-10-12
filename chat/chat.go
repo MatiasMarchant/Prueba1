@@ -13,5 +13,5 @@ func (s *Server) RedecirOrden(ctx context.Context, message *OrdenCliente) (*Orde
 	log.Printf("Recibi la orden")
 	log.Printf("")
 	log.Printf("Producto: %s", message.Producto)
-	return , nil
+	return nil
 }
