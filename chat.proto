@@ -1,7 +1,7 @@
 syntax = "proto3";
 package chat;
 
-message Ordencliente {
+message Ordenclientepymes {
     string id = 1;
     string producto = 2;
     int32 valor = 3;
@@ -10,6 +10,16 @@ message Ordencliente {
     bool prioritario = 6;
 }
 
+
+message Ordenclienteretail {
+    string id = 1;
+    string producto = 2;
+    int32 valor = 3;
+    string tienda = 4;
+    string destino = 5;
+}
+
 service ChatService {
-    rpc RedecirOrden(Ordencliente) returns (Ordencliente) {}
+    rpc RedecirOrdenPymes(Ordenclientepymes) returns (Ordenclientepymes) {}
+    rpc RedecirOrdenRetail(Ordenclienteretail) returns (Ordenclienteretail) {}
 }
