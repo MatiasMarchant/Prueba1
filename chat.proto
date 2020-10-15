@@ -19,7 +19,12 @@ message Ordenclienteretail {
     string destino = 5;
 }
 
+message Ordenseguimiento {
+    string Nordenseguimiento = 1;
+}
+
 service ChatService {
+    rpc RecibirOrdenPymes(Ordenclientepymes) returns (Ordenseguimiento) {}
     rpc RedecirOrdenPymes(Ordenclientepymes) returns (Ordenclientepymes) {}
     rpc RedecirOrdenRetail(Ordenclienteretail) returns (Ordenclienteretail) {}
 }

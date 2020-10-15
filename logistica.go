@@ -14,7 +14,11 @@ func main() {
 		log.Fatalf("Falle al escuchar puerto 9000: %v", err)
 	}
 
-	s := chat.Server{}
+	var listaRegistro []Registro
+	s := chat.Server{
+		listaRegistro: listaRegistro,
+		seguimiento:   "0",
+	}
 
 	grpcServer := grpc.NewServer()
 
