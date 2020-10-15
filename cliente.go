@@ -18,7 +18,7 @@ import (
 
 func ingresarordenesretail(nombreexcel string, tiempoespera string, c chat.ChatServiceClient) bool {
 	csvfile, err := os.Open(nombreexcel)
-	tiempoesperaint, _ := strconv.Atoi(tiempoespera)
+	tiempoesperaint, _ := strconv.Atoi(strings.TrimSuffix(tiempoespera, "\r\n")) // CUIDADO \r POR WINDOWS
 	if err != nil {
 		log.Fatalln("No pude abrir el csv:", err)
 	}
@@ -49,7 +49,7 @@ func ingresarordenesretail(nombreexcel string, tiempoespera string, c chat.ChatS
 		}
 
 		log.Printf("Respuesta de RedecirOrdenRetail: %s", response.Producto)
-		time.Sleep(time.Duration(tiempoesperaint) * time.Second)
+		time.Sleep(time.Second * time.Duration(int64(tiempoesperaint)))
 	}
 }
 
@@ -77,7 +77,7 @@ func main() {
 	fmt.Println("tiempoespera:", tiempoespera)
 
 	var conn *grpc.ClientConn
-	conn, err := grpc.Dial("dist38:9000", grpc.WithInsecure())
+	conn, err := grpc.Dial(":9000", grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("could not connect: %s", err)
 	}
@@ -85,12 +85,10 @@ func main() {
 
 	c := chat.NewChatServiceClient(conn)
 
-	fmt.Println("Antes de preguntar tipotienda")
-
-	if string(tipotienda) == "pymes\n" { // CUIDADO HAY Q CAMBIAR A SOLO \n CUANDO LO PASEMOS A LAS MAQUINAS VIRTUALES (CREOOOOOOOOOOOOOOOOOOOOOOO) XD EL \r ES PQ ESTOY EN WINDOWS, FUCK WINDOWS
+	if string(tipotienda) == "pymes\r\n" { // CUIDADO HAY Q CAMBIAR A SOLO \n CUANDO LO PASEMOS A LAS MAQUINAS VIRTUALES (CREOOOOOOOOOOOOOOOOOOOOOOO) XD EL \r ES PQ ESTOY EN WINDOWS, FUCK WINDOWS
 		fmt.Println("Entre a tipotienda == pymes")
 		//go ingresarordenespymes("pymes.csv", tiempoespera, c)
-	} else if string(tipotienda) == "retail\n" {
+	} else if string(tipotienda) == "retail\r\n" {
 		fmt.Println("Entre a tipotienda == retail")
 		go ingresarordenesretail("retail.csv", tiempoespera, c)
 	}
@@ -101,7 +99,7 @@ func main() {
 		fmt.Printf("> ")
 		opcion, _ := leeropcion.ReadString('\n')
 		opcion = strings.Replace(opcion, "\n", "", -1)
-		if opcion == "exit\n" {
+		if opcion == "exit\r\n" {
 			break
 		} /* else { // Codigo de seguimiento
 			codigoseguimiento, _ := leeropcion.ReadString('\n')
