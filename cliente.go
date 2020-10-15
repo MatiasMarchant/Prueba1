@@ -9,35 +9,48 @@ import (
 	"io"
 	"log"
 	"os"
+	"strconv"
 	"strings"
+	"time"
 
 	"github.com/MatiasMarchant/Prueba1/tree/master/chat"
 )
 
-func abrircsvpymes() *Reader {
-	csvfile, err := os.Open("pymes.csv")
+func ingresarordenesretail(nombreexcel string, tiempoespera string, c chat.ChatServiceClient) bool {
+	csvfile, err := os.Open(nombreexcel)
+	tiempoesperaint, _ := strconv.Atoi(tiempoespera)
 	if err != nil {
-		log.Fatalln("No pude abrir el csv", err)
+		log.Fatalln("No pude abrir el csv:", err)
 	}
+	defer csvfile.Close()
 
-	// Parsear el csvfile
 	r := csv.NewReader(csvfile)
-
-	// Iterar csv
-
-	/*for {
-		record, err := r.Read()
-		if err == io.EOF {
-			break
-		}
+	for {
+		row, err := r.Read()
 		if err != nil {
-			log.Fatal(err)
+			if err == io.EOF {
+				err = nil
+			}
+			return true
 		}
-		fmt.Printf("1: %s, 2: %s, 3: %s, 4: %s, 5: %s, 6: %s\n", record[0], record[1], record[2], record[3], record[4], record[5])
-	}*/
+		valorint32, _ := strconv.ParseInt(row[2], 10, 32)
 
-	return r
+		orden := chat.Ordenclienteretail{
+			Id:       row[0],
+			Producto: row[1],
+			Valor:    int32(valorint32),
+			Tienda:   row[3],
+			Destino:  row[4],
+		}
 
+		response, err := c.RedecirOrdenRetail(context.Background(), &orden)
+		if err != nil {
+			log.Fatalf("Error usando RedecirOrdenRetail: %s", err)
+		}
+
+		log.Printf("Respuesta de RedecirOrdenRetail: %s", response.Producto)
+		time.Sleep(time.Duration(tiempoesperaint) * time.Second)
+	}
 }
 
 func preguntasiniciales() (string, string) {
@@ -45,15 +58,15 @@ func preguntasiniciales() (string, string) {
 	fmt.Println("Preguntas iniciales:")
 	fmt.Println("Pymes o Retail?")
 	fmt.Printf("> ")
-	tipotienda, _ := reader.ReadString('\n')
-	tipotienda = strings.Replace(tipotienda, "\n", "", -1)
-	fmt.Println("Respuesta:", tipotienda)
+	tipotienda, _ := reader.ReadBytes('\n')
+	//tipotienda = strings.Replace(tipotienda, "\n", "", -1)
+	fmt.Println("Respuesta:", string(tipotienda))
 	fmt.Println("Tiempo en segundos de espera entre el envío de órdenes")
 	fmt.Printf("> ")
-	tiempoespera, _ := reader.ReadString('\n')
-	tiempoespera = strings.Replace(tiempoespera, "\n", "", -1)
-	fmt.Println("Respuesta:", tiempoespera)
-	return tipotienda, tiempoespera
+	tiempoespera, _ := reader.ReadBytes('\n')
+	//tiempoespera = strings.Replace(tiempoespera, "\n", "", -1)
+	fmt.Println("Respuesta:", string(tiempoespera))
+	return string(tipotienda), string(tiempoespera)
 }
 
 func main() {
@@ -63,10 +76,8 @@ func main() {
 	fmt.Println("tipotienda:", tipotienda)
 	fmt.Println("tiempoespera:", tiempoespera)
 
-	//abrircsvpymes()
-
 	var conn *grpc.ClientConn
-	conn, err := grpc.Dial("10.6.40.178:9000", grpc.WithInsecure())
+	conn, err := grpc.Dial(":9000", grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("could not connect: %s", err)
 	}
@@ -74,57 +85,50 @@ func main() {
 
 	c := chat.NewChatServiceClient(conn)
 
+	fmt.Println("Antes de preguntar tipotienda")
+
+	if string(tipotienda) == "pymes\n" { // CUIDADO HAY Q CAMBIAR A SOLO \n CUANDO LO PASEMOS A LAS MAQUINAS VIRTUALES (CREOOOOOOOOOOOOOOOOOOOOOOO) XD EL \r ES PQ ESTOY EN WINDOWS, FUCK WINDOWS
+		fmt.Println("Entre a tipotienda == pymes")
+		//go ingresarordenespymes("pymes.csv", tiempoespera, c)
+	} else if string(tipotienda) == "retail\n" {
+		fmt.Println("Entre a tipotienda == retail")
+		go ingresarordenesretail("retail.csv", tiempoespera, c)
+	}
+
 	leeropcion := bufio.NewReader(os.Stdin)
-
-	if tipotienda == "pymes" {
-		fmt.Printf("Entre a tipotienda == pymes")
-		r := abrircsvpymes()
-
-		for true {
-			fmt.Println("Desea consultar un código de seguimiento? (si/no)")
-			fmt.Printf("> ")
-			opcion, _ := leeropcion.ReadString('\n')
-			opcion = strings.Replace(opcion, "\n", "", -1)
-			if opcion == "si" { // Consulta seguimiento
-				fmt.Println("Ingrese código de seguimiento")
-				fmt.Printf("> ")
-				codigoseguimiento, _ := leeropcion.ReadString('\n')
-				codigoseguimiento = strings.Replace(codigoseguimiento, "\n", "", -1)
-				/*
-					respuesta, err := c.CodigoSeguimiento(context.Background(), codigoseguimiento)
-					if err != nil {
-						log.Fatalf("Error usando c.CodigoSeguimiento")
-					}
-					fmt.Println("El estado de su pedido es:", respuesta)
-				*/
-
+	for true {
+		fmt.Println("Ingrese codigo de seguimiento, si quiere salir ingrese exit")
+		fmt.Printf("> ")
+		opcion, _ := leeropcion.ReadString('\n')
+		opcion = strings.Replace(opcion, "\n", "", -1)
+		if opcion == "exit\n" {
+			break
+		} /* else { // Codigo de seguimiento
+			codigoseguimiento, _ := leeropcion.ReadString('\n')
+			codigoseguimiento = strings.Replace(codigoseguimiento, "\n", "", -1)
+			respuesta, err := c.CodigoSeguimiento(context.Background(), codigoseguimiento)
+			if err != nil {
+				log.Fatalf("Error usando c.CodigoSeguimiento")
 			}
+			fmt.Println("El estado de su pedido es:", respuesta)
+		}*/
+	}
 
-			/*
-				// Esperar el tiempo ya determinado
-				// Lanzar orden (preguntar antes si esque aun hay ordenes)
-			*/
-
+	/*
+		message := chat.Ordenclientepymes{
+			Id:          "Id",
+			Producto:    "Producto",
+			Valor:       15,
+			Tienda:      "Tienda",
+			Destino:     "Destino",
+			Prioritario: true,
 		}
 
-	} else if tipotienda == "retail" {
-		fmt.Printf("Entre a tipotienda == retail")
+		response, err := c.RedecirOrdenPymes(context.Background(), &message)
+		if err != nil {
+			log.Fatalf("Error when calling SayHello: %s", err)
+		}
 
-	}
-
-	message := chat.Ordenclientepymes{
-		Id:          "Id",
-		Producto:    "Producto",
-		Valor:       15,
-		Tienda:      "Tienda",
-		Destino:     "Destino",
-		Prioritario: true,
-	}
-
-	response, err := c.RedecirOrdenPymes(context.Background(), &message)
-	if err != nil {
-		log.Fatalf("Error when calling SayHello: %s", err)
-	}
-
-	log.Printf("Response from Server: %s", response.Producto)
+		log.Printf("Response from Server: %s", response.Producto)
+	*/
 }
