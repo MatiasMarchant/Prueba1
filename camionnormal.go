@@ -15,6 +15,17 @@ import (
 	"github.com/MatiasMarchant/Prueba1/tree/master/chat"
 )
 
+//RegistroCamion es
+type RegistroCamion struct {
+	idpaquete    string
+	tipo         string
+	valor        string
+	origen       string
+	destino      string
+	intentos     string
+	fechaentrega string
+}
+
 func preguntasiniciales() string {
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Println("Preguntas iniciales")
@@ -52,9 +63,12 @@ func main() {
 			paquete2, _ := c.EntregarPaqueteCamionNormal(context.Background(), &idcamion)
 			if paquete2.Idpaquete == "Nopaquetes" {
 				// Marchar solo con paquete
+				paquete.Estado = "En camino"
 				os.Exit(0)
 			} else {
 				// Marchar con paquete y paquete2
+				paquete.Estado = "En camino"
+				paquete2.Estado = "En camino"
 				os.Exit(0)
 			}
 		}

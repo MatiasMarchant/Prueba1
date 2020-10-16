@@ -34,6 +34,8 @@ message ColaPaquete {
     string valor = 4;
     string intentos = 5;
     string estado = 6;
+    string origen = 7;
+    string destino = 8;
 }
 
 message IdCamion {

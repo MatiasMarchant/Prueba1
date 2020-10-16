@@ -1,6 +1,7 @@
 package chat
 
 import (
+	//"fmt"
 	"golang.org/x/net/context"
 	"log"
 	"strconv"
@@ -27,20 +28,33 @@ type Cola struct {
 	valor       string
 	intentos    string
 	estado      string
+	origen      string
+	destino     string
+}
+
+//PaqueteEnMarcha es
+type PaqueteEnMarcha struct {
+	idpaquete     string
+	estado        string
+	idcamion      string
+	idseguimiento string
+	intentos      string
+	origen        string
+	destino       string
 }
 
 //Server es
 type Server struct {
-	ListaRegistro   []Registro
-	Seguimiento     string
-	ColaRetail      []Cola
-	ColaPrioritario []Cola
-	ColaNormal      []Cola
+	ListaRegistro    []Registro
+	Seguimiento      string
+	ColaRetail       []Cola
+	ColaPrioritario  []Cola
+	ColaNormal       []Cola
+	PaquetesEnMarcha []PaqueteEnMarcha
 }
 
 //EntregarPaqueteCamionNormal es
 func (s *Server) EntregarPaqueteCamionNormal(ctx context.Context, message *IdCamion) (*ColaPaquete, error) {
-	log.Println("Entre aca")
 	messageColaPaqueteError := ColaPaquete{
 		Idpaquete:   "NoPaquetes",
 		Seguimiento: "",
@@ -48,6 +62,8 @@ func (s *Server) EntregarPaqueteCamionNormal(ctx context.Context, message *IdCam
 		Valor:       "",
 		Intentos:    "",
 		Estado:      "",
+		Origen:      "",
+		Destino:     "",
 	}
 	if len(s.ColaPrioritario) < 1 && len(s.ColaNormal) < 1 { // NoPaquetes ninguna cola
 		return &messageColaPaqueteError, nil
@@ -56,8 +72,14 @@ func (s *Server) EntregarPaqueteCamionNormal(ctx context.Context, message *IdCam
 	indicemascaro := 0
 	elemmascaro := 0
 	iterador := 0
+	/*
+		fmt.Println("---")
+		fmt.Println(len(s.ColaPrioritario))
+		fmt.Println("---")
+	*/
 
 	if len(s.ColaPrioritario) > 1 {
+		//fmt.Println("Entre a ColaPrioritario")
 		// Busqueda paquete mas caro
 		for _, elem := range s.ColaPrioritario {
 			value, _ := strconv.Atoi(elem.valor)
@@ -78,6 +100,18 @@ func (s *Server) EntregarPaqueteCamionNormal(ctx context.Context, message *IdCam
 			Valor:       s.ColaPrioritario[indicemascaro].valor,
 			Intentos:    s.ColaPrioritario[indicemascaro].intentos,
 			Estado:      s.ColaPrioritario[indicemascaro].estado,
+			Origen:      s.ColaPrioritario[indicemascaro].origen,
+			Destino:     s.ColaPrioritario[indicemascaro].destino,
+		}
+
+		nuevoPaquete := PaqueteEnMarcha{
+			idpaquete:     s.ColaPrioritario[indicemascaro].idpaquete,
+			estado:        s.ColaPrioritario[indicemascaro].estado,
+			idcamion:      message.Idcamion,
+			idseguimiento: s.ColaPrioritario[indicemascaro].seguimiento,
+			intentos:      s.ColaPrioritario[indicemascaro].intentos,
+			origen:        s.ColaPrioritario[indicemascaro].origen,
+			destino:       s.ColaPrioritario[indicemascaro].destino,
 		}
 
 		// Quitar elemento mas caro de la cola
@@ -85,11 +119,18 @@ func (s *Server) EntregarPaqueteCamionNormal(ctx context.Context, message *IdCam
 		// https://yourbasic.org/golang/delete-element-slice/
 		s.ColaPrioritario[indicemascaro] = s.ColaPrioritario[len(s.ColaPrioritario)-1]
 		s.ColaPrioritario = s.ColaPrioritario[:len(s.ColaPrioritario)-1]
-		log.Println(&messageColaPaquete)
+		//log.Println(&messageColaPaquete)
+
+		//fmt.Println(s.ColaPrioritario)
+
+		s.PaquetesEnMarcha = append(s.PaquetesEnMarcha, nuevoPaquete)
 
 		return &messageColaPaquete, nil
 	}
 
+	indicemascaro = 0
+	elemmascaro = 0
+	iterador = 0
 	if len(s.ColaNormal) > 1 {
 		// Busqueda paquete mas caro
 		for _, elem := range s.ColaNormal {
@@ -105,20 +146,34 @@ func (s *Server) EntregarPaqueteCamionNormal(ctx context.Context, message *IdCam
 		// Preparacion retorno paquete normal mas caro
 
 		messageColaPaquete := ColaPaquete{
-			Idpaquete:   s.ColaPrioritario[indicemascaro].idpaquete,
-			Seguimiento: s.ColaPrioritario[indicemascaro].seguimiento,
-			Tipo:        s.ColaPrioritario[indicemascaro].tipo,
-			Valor:       s.ColaPrioritario[indicemascaro].valor,
-			Intentos:    s.ColaPrioritario[indicemascaro].intentos,
-			Estado:      s.ColaPrioritario[indicemascaro].estado,
+			Idpaquete:   s.ColaNormal[indicemascaro].idpaquete,
+			Seguimiento: s.ColaNormal[indicemascaro].seguimiento,
+			Tipo:        s.ColaNormal[indicemascaro].tipo,
+			Valor:       s.ColaNormal[indicemascaro].valor,
+			Intentos:    s.ColaNormal[indicemascaro].intentos,
+			Estado:      s.ColaNormal[indicemascaro].estado,
+			Origen:      s.ColaNormal[indicemascaro].origen,
+			Destino:     s.ColaNormal[indicemascaro].destino,
+		}
+
+		nuevoPaquete := PaqueteEnMarcha{
+			idpaquete:     s.ColaNormal[indicemascaro].idpaquete,
+			estado:        s.ColaNormal[indicemascaro].estado,
+			idcamion:      message.Idcamion,
+			idseguimiento: s.ColaNormal[indicemascaro].seguimiento,
+			intentos:      s.ColaNormal[indicemascaro].intentos,
+			origen:        s.ColaNormal[indicemascaro].origen,
+			destino:       s.ColaNormal[indicemascaro].destino,
 		}
 
 		// Quitar elemento mas caro de la cola
 
 		// https://yourbasic.org/golang/delete-element-slice/
-		s.ColaPrioritario[indicemascaro] = s.ColaPrioritario[len(s.ColaPrioritario)-1]
-		s.ColaPrioritario = s.ColaPrioritario[:len(s.ColaPrioritario)-1]
+		s.ColaNormal[indicemascaro] = s.ColaNormal[len(s.ColaNormal)-1]
+		s.ColaNormal = s.ColaNormal[:len(s.ColaNormal)-1]
 		log.Println(&messageColaPaquete)
+
+		s.PaquetesEnMarcha = append(s.PaquetesEnMarcha, nuevoPaquete)
 
 		return &messageColaPaquete, nil
 	}
@@ -154,6 +209,8 @@ func (s *Server) RecibirOrdenPymes(ctx context.Context, message *Ordenclientepym
 		valor:       strconv.Itoa(int(message.Valor)),
 		intentos:    "0",
 		estado:      "En bodega",
+		origen:      message.Tienda,
+		destino:     message.Destino,
 	}
 	// Agregar paquete a una de las tres colas de Server
 	if tipo == "prioritario" {
@@ -206,6 +263,8 @@ func (s *Server) RecibirOrdenRetail(ctx context.Context, message *Ordenclientere
 		valor:       strconv.Itoa(int(message.Valor)),
 		intentos:    "0",
 		estado:      "En bodega",
+		origen:      message.Tienda,
+		destino:     message.Destino,
 	}
 
 	// Agregar paquete a una de las tres colas de Server
