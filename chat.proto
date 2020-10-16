@@ -26,5 +26,6 @@ message Ordenseguimiento {
 service ChatService {
     rpc RecibirOrdenPymes(Ordenclientepymes) returns (Ordenseguimiento) {}
     rpc RedecirOrdenPymes(Ordenclientepymes) returns (Ordenclientepymes) {}
+    rpc RecibirOrdenRetail(Ordenclienteretail) returns (Ordenseguimiento) {}
     rpc RedecirOrdenRetail(Ordenclienteretail) returns (Ordenclienteretail) {}
 }
