@@ -21,15 +21,15 @@ type Registro struct {
 
 //Server es
 type Server struct {
-	listaRegistro []Registro
-	seguimiento   string
+	ListaRegistro []Registro
+	Seguimiento   string
 }
 
 //RecibirOrdenPymes es
 func (s *Server) RecibirOrdenPymes(ctx context.Context, message *Ordenclientepymes) (*Ordenseguimiento, error) {
 	var tipo string
 	messageOrdenseguimiento := Ordenseguimiento{
-		Nordenseguimiento: s.seguimiento,
+		Nordenseguimiento: s.Seguimiento,
 	}
 	if message.Prioritario == true {
 		tipo = "prioritario"
@@ -44,14 +44,14 @@ func (s *Server) RecibirOrdenPymes(ctx context.Context, message *Ordenclientepym
 		valor:       string(message.Valor),
 		origen:      message.Tienda,
 		destino:     message.Destino,
-		seguimiento: s.seguimiento,
+		seguimiento: s.Seguimiento,
 	}
 
-	numerosiguiente, _ := strconv.Atoi(s.seguimiento)
+	numerosiguiente, _ := strconv.Atoi(s.Seguimiento)
 	numerosiguiente++
 
-	s.seguimiento = string(numerosiguiente)
-	s.listaRegistro = append(s.listaRegistro, nuevaEntrada)
+	s.Seguimiento = strconv.Itoa(numerosiguiente)
+	s.ListaRegistro = append(s.ListaRegistro, nuevaEntrada)
 	return &messageOrdenseguimiento, nil
 }
 

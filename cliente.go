@@ -18,7 +18,7 @@ import (
 
 func ingresarordenespymes(nombreexcel string, tiempoespera string, c chat.ChatServiceClient) bool {
 	csvfile, err := os.Open(nombreexcel)
-	tiempoesperaint, _ := strconv.Atoi(strings.Trimsuffix(tiempoespera, "\r\n"))
+	tiempoesperaint, _ := strconv.Atoi(strings.TrimSuffix(tiempoespera, "\r\n"))
 	if err != nil {
 		log.Fatalln("No pude abrir el csv:", err)
 	}
@@ -36,13 +36,57 @@ func ingresarordenespymes(nombreexcel string, tiempoespera string, c chat.ChatSe
 		valorint32, _ := strconv.ParseInt(row[2], 10, 32)
 
 		orden := chat.Ordenclientepymes{
-			Id: row[0],
-			Producto: row[1]
-			Valor: int32(valorint32)
-
+			Id:       row[0],
+			Producto: row[1],
+			Valor:    int32(valorint32),
 		}
 	}
 }
+
+func ingresarordenespymes(nombreexcel string, tiempoespera string, c chat.ChatServiceClient bool) {
+	csvfile, err := os.Open(nombreexcel)
+	tiempoesperaint, _ := strconv.Atoi(strings.TrimSuffix(tiempoespera, "\r\n")) // DANGER
+	if err != nil {
+		log.Fatalln("No pude abrir el csv:", err)
+	}
+	defer csvfile.Close()
+
+	r := csv.NewReader(csvfile)
+	for{
+		row, err := r.Read()
+		if err != nil {
+			if err == io.EOF {
+				err = nil
+			}
+			return true
+		}
+		valorint32, _ := strconv.ParseInt(row[2], 10, 32)
+
+		if row[5] == 1 {
+			prioritarioBool = true
+		} else {
+			prioritarioBool = false
+		}
+		orden := chat.Ordenclientepymes{
+			Id: row[0],
+			Producto: row[1],
+			Valor: row[2],
+			Tienda: row[3],
+			Destino: row[4],
+			Prioritario: prioritarioBool,
+		}
+
+		response, err := c.RecibirOrdenPymes(context.Background(), &orden)
+		if err != nil {
+			log.Fatalf("Error usando RecibirOrdenPymes: %s", err)
+		}
+
+		log.Printf("Codigo de seguimiento: %s", response.Nordenseguimiento)
+		time.Sleep(time.Second * time.Duration(int64(tiempoesperaint)))
+	}
+
+}
+
 
 func ingresarordenesretail(nombreexcel string, tiempoespera string, c chat.ChatServiceClient) bool {
 	csvfile, err := os.Open(nombreexcel)

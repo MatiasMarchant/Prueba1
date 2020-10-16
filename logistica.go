@@ -5,6 +5,7 @@ import (
 	"net"
 
 	"github.com/MatiasMarchant/Prueba1/tree/master/chat"
+	//"chat"
 	"google.golang.org/grpc"
 )
 
@@ -14,11 +15,13 @@ func main() {
 		log.Fatalf("Falle al escuchar puerto 9000: %v", err)
 	}
 
-	var listaRegistro []Registro
+	var listaRegistro []chat.Registro
 	s := chat.Server{
-		listaRegistro: listaRegistro,
-		seguimiento:   "0",
+		//chat.listaRegistro: listaRegistro,
+		//seguimiento:        "0",
 	}
+	s.ListaRegistro = listaRegistro
+	s.Seguimiento = "0"
 
 	grpcServer := grpc.NewServer()
 
