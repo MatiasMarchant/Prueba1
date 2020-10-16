@@ -40,6 +40,7 @@ type Server struct {
 
 //EntregarPaqueteCamionNormal es
 func (s *Server) EntregarPaqueteCamionNormal(ctx context.Context, message *IdCamion) (*ColaPaquete, error) {
+	log.Println("Entre aca")
 	messageColaPaqueteError := ColaPaquete{
 		Idpaquete:   "NoPaquetes",
 		Seguimiento: "",
@@ -121,6 +122,7 @@ func (s *Server) EntregarPaqueteCamionNormal(ctx context.Context, message *IdCam
 
 		return &messageColaPaquete, nil
 	}
+	return &messageColaPaqueteError, nil
 }
 
 //RecibirOrdenPymes es
@@ -168,6 +170,7 @@ func (s *Server) RecibirOrdenPymes(ctx context.Context, message *Ordenclientepym
 	s.Seguimiento = strconv.Itoa(numerosiguiente)
 	s.ListaRegistro = append(s.ListaRegistro, nuevaEntrada)
 
+	//log.Println(s.ColaNormal)
 	//log.Println(s.ListaRegistro)
 	return &messageOrdenseguimiento, nil
 }
