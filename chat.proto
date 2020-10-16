@@ -23,9 +23,28 @@ message Ordenseguimiento {
     string Nordenseguimiento = 1;
 }
 
+message Estado {
+    string Estado = 1;
+}
+
+message ColaPaquete {
+    string idpaquete = 1;
+    string seguimiento = 2;
+    string tipo = 3;
+    string valor = 4;
+    string intentos = 5;
+    string estado = 6;
+}
+
+message IdCamion {
+    string idcamion = 1;
+}
+
 service ChatService {
+    rpc EntregarPaqueteCamionNormal(IdCamion) returns (ColaPaquete) {}
     rpc RecibirOrdenPymes(Ordenclientepymes) returns (Ordenseguimiento) {}
     rpc RedecirOrdenPymes(Ordenclientepymes) returns (Ordenclientepymes) {}
     rpc RecibirOrdenRetail(Ordenclienteretail) returns (Ordenseguimiento) {}
     rpc RedecirOrdenRetail(Ordenclienteretail) returns (Ordenclienteretail) {}
+    rpc CodigoSeguimiento(Ordenseguimiento) returns (Estado) {}
 }

@@ -19,10 +19,108 @@ type Registro struct {
 	seguimiento string
 }
 
+//Cola es
+type Cola struct {
+	idpaquete   string
+	seguimiento string
+	tipo        string
+	valor       string
+	intentos    string
+	estado      string
+}
+
 //Server es
 type Server struct {
-	ListaRegistro []Registro
-	Seguimiento   string
+	ListaRegistro   []Registro
+	Seguimiento     string
+	ColaRetail      []Cola
+	ColaPrioritario []Cola
+	ColaNormal      []Cola
+}
+
+//EntregarPaqueteCamionNormal es
+func (s *Server) EntregarPaqueteCamionNormal(ctx context.Context, message *IdCamion) (*ColaPaquete, error) {
+	messageColaPaqueteError := ColaPaquete{
+		Idpaquete:   "NoPaquetes",
+		Seguimiento: "",
+		Tipo:        "",
+		Valor:       "",
+		Intentos:    "",
+		Estado:      "",
+	}
+	if len(s.ColaPrioritario) < 1 && len(s.ColaNormal) < 1 { // NoPaquetes ninguna cola
+		return &messageColaPaqueteError, nil
+	}
+
+	indicemascaro := 0
+	elemmascaro := 0
+	iterador := 0
+
+	if len(s.ColaPrioritario) > 1 {
+		// Busqueda paquete mas caro
+		for _, elem := range s.ColaPrioritario {
+			value, _ := strconv.Atoi(elem.valor)
+			// Buscar elemento más caro
+			if value > elemmascaro {
+				indicemascaro = iterador
+				elemmascaro = value
+			}
+			iterador++
+		}
+
+		// Preparacion retorno paquete prioritario mas caro
+
+		messageColaPaquete := ColaPaquete{
+			Idpaquete:   s.ColaPrioritario[indicemascaro].idpaquete,
+			Seguimiento: s.ColaPrioritario[indicemascaro].seguimiento,
+			Tipo:        s.ColaPrioritario[indicemascaro].tipo,
+			Valor:       s.ColaPrioritario[indicemascaro].valor,
+			Intentos:    s.ColaPrioritario[indicemascaro].intentos,
+			Estado:      s.ColaPrioritario[indicemascaro].estado,
+		}
+
+		// Quitar elemento mas caro de la cola
+
+		// https://yourbasic.org/golang/delete-element-slice/
+		s.ColaPrioritario[indicemascaro] = s.ColaPrioritario[len(s.ColaPrioritario)-1]
+		s.ColaPrioritario = s.ColaPrioritario[:len(s.ColaPrioritario)-1]
+		log.Println(&messageColaPaquete)
+
+		return &messageColaPaquete, nil
+	}
+
+	if len(s.ColaNormal) > 1 {
+		// Busqueda paquete mas caro
+		for _, elem := range s.ColaNormal {
+			value, _ := strconv.Atoi(elem.valor)
+			// Buscar elemento más caro
+			if value > elemmascaro {
+				indicemascaro = iterador
+				elemmascaro = value
+			}
+			iterador++
+		}
+
+		// Preparacion retorno paquete normal mas caro
+
+		messageColaPaquete := ColaPaquete{
+			Idpaquete:   s.ColaPrioritario[indicemascaro].idpaquete,
+			Seguimiento: s.ColaPrioritario[indicemascaro].seguimiento,
+			Tipo:        s.ColaPrioritario[indicemascaro].tipo,
+			Valor:       s.ColaPrioritario[indicemascaro].valor,
+			Intentos:    s.ColaPrioritario[indicemascaro].intentos,
+			Estado:      s.ColaPrioritario[indicemascaro].estado,
+		}
+
+		// Quitar elemento mas caro de la cola
+
+		// https://yourbasic.org/golang/delete-element-slice/
+		s.ColaPrioritario[indicemascaro] = s.ColaPrioritario[len(s.ColaPrioritario)-1]
+		s.ColaPrioritario = s.ColaPrioritario[:len(s.ColaPrioritario)-1]
+		log.Println(&messageColaPaquete)
+
+		return &messageColaPaquete, nil
+	}
 }
 
 //RecibirOrdenPymes es
@@ -47,12 +145,30 @@ func (s *Server) RecibirOrdenPymes(ctx context.Context, message *Ordenclientepym
 		seguimiento: s.Seguimiento,
 	}
 
+	nuevaCola := Cola{
+		idpaquete:   message.Id,
+		seguimiento: s.Seguimiento,
+		tipo:        tipo,
+		valor:       strconv.Itoa(int(message.Valor)),
+		intentos:    "0",
+		estado:      "En bodega",
+	}
+	// Agregar paquete a una de las tres colas de Server
+	if tipo == "prioritario" {
+		// Add cola prioritario
+		s.ColaPrioritario = append(s.ColaPrioritario, nuevaCola)
+	} else {
+		// Add cola normal
+		s.ColaNormal = append(s.ColaNormal, nuevaCola)
+	}
+
+	// Actualizacion codigo de seguimiento (atributo Server)
 	numerosiguiente, _ := strconv.Atoi(s.Seguimiento)
 	numerosiguiente++
-
 	s.Seguimiento = strconv.Itoa(numerosiguiente)
 	s.ListaRegistro = append(s.ListaRegistro, nuevaEntrada)
-	log.Println(s.ListaRegistro)
+
+	//log.Println(s.ListaRegistro)
 	return &messageOrdenseguimiento, nil
 }
 
@@ -80,12 +196,25 @@ func (s *Server) RecibirOrdenRetail(ctx context.Context, message *Ordenclientere
 		seguimiento: s.Seguimiento,
 	}
 
+	nuevaCola := Cola{
+		idpaquete:   message.Id,
+		seguimiento: s.Seguimiento,
+		tipo:        "retail",
+		valor:       strconv.Itoa(int(message.Valor)),
+		intentos:    "0",
+		estado:      "En bodega",
+	}
+
+	// Agregar paquete a una de las tres colas de Server
+	s.ColaRetail = append(s.ColaRetail, nuevaCola)
+	//log.Println(s.ColaRetail)
+
+	// Actualizacion codigo de seguimiento (atributo Server)
 	numerosiguiente, _ := strconv.Atoi(s.Seguimiento)
 	numerosiguiente++
-
 	s.Seguimiento = strconv.Itoa(numerosiguiente)
 	s.ListaRegistro = append(s.ListaRegistro, nuevaEntrada)
-	log.Println(s.ListaRegistro)
+	//log.Println(s.ListaRegistro)
 	return &messageOrdenseguimiento, nil
 }
 
@@ -94,4 +223,12 @@ func (s *Server) RedecirOrdenRetail(ctx context.Context, message *Ordenclientere
 	log.Println("Recibi la orden retail")
 	log.Printf("Producto retail: %s", message.Producto)
 	return message, nil
+}
+
+//CodigoSeguimiento es
+func (s *Server) CodigoSeguimiento(ctx context.Context, message *Ordenseguimiento) (*Estado, error) {
+	mensajeError := Estado{
+		Estado: "No se pudo encontrar código",
+	}
+	return &mensajeError, nil
 }

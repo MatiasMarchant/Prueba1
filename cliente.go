@@ -16,35 +16,6 @@ import (
 	"github.com/MatiasMarchant/Prueba1/tree/master/chat"
 )
 
-/*
-func ingresarordenespymes(nombreexcel string, tiempoespera string, c chat.ChatServiceClient) bool {
-	csvfile, err := os.Open(nombreexcel)
-	tiempoesperaint, _ := strconv.Atoi(strings.TrimSuffix(tiempoespera, "\r\n"))
-	if err != nil {
-		log.Fatalln("No pude abrir el csv:", err)
-	}
-	defer csvfile.Close()
-
-	r := csv.NewReader(csvfile)
-	for {
-		row, err := r.Read()
-		if err != nil {
-			if err == io.EOF {
-				err = nil
-			}
-			return true
-		}
-		valorint32, _ := strconv.ParseInt(row[2], 10, 32)
-
-		orden := chat.Ordenclientepymes{
-			Id:       row[0],
-			Producto: row[1],
-			Valor:    int32(valorint32),
-		}
-	}
-}
-*/
-
 func ingresarordenespymes(nombreexcel string, tiempoespera string, c chat.ChatServiceClient) bool {
 	csvfile, err := os.Open(nombreexcel)
 	tiempoesperaint, _ := strconv.Atoi(strings.TrimSuffix(tiempoespera, "\r\n")) // DANGER
@@ -54,7 +25,7 @@ func ingresarordenespymes(nombreexcel string, tiempoespera string, c chat.ChatSe
 	defer csvfile.Close()
 	var prioritarioBool bool
 	r := csv.NewReader(csvfile)
-	row, err := r.Read() // Saltarse la gracias primera linea
+	r.Read() // Saltarse la gracias primera linea
 	for {
 		row, err := r.Read()
 		if err != nil {
@@ -99,6 +70,7 @@ func ingresarordenesretail(nombreexcel string, tiempoespera string, c chat.ChatS
 	defer csvfile.Close()
 
 	r := csv.NewReader(csvfile)
+	r.Read() // Saltarse la gracias primera linea
 	for {
 		row, err := r.Read()
 		if err != nil {
@@ -133,13 +105,11 @@ func preguntasiniciales() (string, string) {
 	fmt.Println("Pymes o Retail?")
 	fmt.Printf("> ")
 	tipotienda, _ := reader.ReadBytes('\n')
-	//tipotienda = strings.Replace(tipotienda, "\n", "", -1)
-	fmt.Println("Respuesta:", string(tipotienda))
+	//fmt.Println("Respuesta:", string(tipotienda))
 	fmt.Println("Tiempo en segundos de espera entre el envío de órdenes")
 	fmt.Printf("> ")
 	tiempoespera, _ := reader.ReadBytes('\n')
-	//tiempoespera = strings.Replace(tiempoespera, "\n", "", -1)
-	fmt.Println("Respuesta:", string(tiempoespera))
+	//fmt.Println("Respuesta:", string(tiempoespera))
 	return string(tipotienda), string(tiempoespera)
 }
 
@@ -147,8 +117,8 @@ func main() {
 	var tipotienda, tiempoespera string
 	tipotienda, tiempoespera = preguntasiniciales()
 
-	fmt.Println("tipotienda:", tipotienda)
-	fmt.Println("tiempoespera:", tiempoespera)
+	//fmt.Println("tipotienda:", tipotienda)
+	//fmt.Println("tiempoespera:", tiempoespera)
 
 	var conn *grpc.ClientConn
 	conn, err := grpc.Dial(":9000", grpc.WithInsecure())
@@ -175,32 +145,18 @@ func main() {
 		opcion = strings.Replace(opcion, "\n", "", -1)
 		if opcion == "exit\r\n" {
 			break
-		} /* else { // Codigo de seguimiento
+		} else { // Codigo de seguimiento
 			codigoseguimiento, _ := leeropcion.ReadString('\n')
 			codigoseguimiento = strings.TrimSuffix(codigoseguimiento, "\r\n")
-			respuesta, err := c.CodigoSeguimiento(context.Background(), codigoseguimiento)
+			orden := chat.Ordenseguimiento{
+				Nordenseguimiento: codigoseguimiento,
+			}
+			respuesta, err := c.CodigoSeguimiento(context.Background(), &orden)
 			if err != nil {
 				log.Fatalf("Error usando c.CodigoSeguimiento")
 			}
-			fmt.Println("El estado de su pedido es:", respuesta)
-		}*/
+			fmt.Println("El estado de su pedido es:", respuesta.Estado)
+		}
 	}
 
-	/*
-		message := chat.Ordenclientepymes{
-			Id:          "Id",
-			Producto:    "Producto",
-			Valor:       15,
-			Tienda:      "Tienda",
-			Destino:     "Destino",
-			Prioritario: true,
-		}
-
-		response, err := c.RedecirOrdenPymes(context.Background(), &message)
-		if err != nil {
-			log.Fatalf("Error when calling SayHello: %s", err)
-		}
-
-		log.Printf("Response from Server: %s", response.Producto)
-	*/
 }
