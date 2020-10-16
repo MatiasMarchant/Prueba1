@@ -52,6 +52,7 @@ func (s *Server) RecibirOrdenPymes(ctx context.Context, message *Ordenclientepym
 
 	s.Seguimiento = strconv.Itoa(numerosiguiente)
 	s.ListaRegistro = append(s.ListaRegistro, nuevaEntrada)
+	fmt.Println(s.ListaRegistro)
 	return &messageOrdenseguimiento, nil
 }
 

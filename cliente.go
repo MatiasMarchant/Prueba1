@@ -16,6 +16,7 @@ import (
 	"github.com/MatiasMarchant/Prueba1/tree/master/chat"
 )
 
+/*
 func ingresarordenespymes(nombreexcel string, tiempoespera string, c chat.ChatServiceClient) bool {
 	csvfile, err := os.Open(nombreexcel)
 	tiempoesperaint, _ := strconv.Atoi(strings.TrimSuffix(tiempoespera, "\r\n"))
@@ -42,17 +43,18 @@ func ingresarordenespymes(nombreexcel string, tiempoespera string, c chat.ChatSe
 		}
 	}
 }
+*/
 
-func ingresarordenespymes(nombreexcel string, tiempoespera string, c chat.ChatServiceClient bool) {
+func ingresarordenespymes(nombreexcel string, tiempoespera string, c chat.ChatServiceClient) bool {
 	csvfile, err := os.Open(nombreexcel)
 	tiempoesperaint, _ := strconv.Atoi(strings.TrimSuffix(tiempoespera, "\r\n")) // DANGER
 	if err != nil {
 		log.Fatalln("No pude abrir el csv:", err)
 	}
 	defer csvfile.Close()
-
+	var prioritarioBool bool
 	r := csv.NewReader(csvfile)
-	for{
+	for {
 		row, err := r.Read()
 		if err != nil {
 			if err == io.EOF {
@@ -62,17 +64,17 @@ func ingresarordenespymes(nombreexcel string, tiempoespera string, c chat.ChatSe
 		}
 		valorint32, _ := strconv.ParseInt(row[2], 10, 32)
 
-		if row[5] == 1 {
+		if row[5] == "1" {
 			prioritarioBool = true
 		} else {
 			prioritarioBool = false
 		}
 		orden := chat.Ordenclientepymes{
-			Id: row[0],
-			Producto: row[1],
-			Valor: row[2],
-			Tienda: row[3],
-			Destino: row[4],
+			Id:          row[0],
+			Producto:    row[1],
+			Valor:       int32(valorint32),
+			Tienda:      row[3],
+			Destino:     row[4],
 			Prioritario: prioritarioBool,
 		}
 
@@ -86,7 +88,6 @@ func ingresarordenespymes(nombreexcel string, tiempoespera string, c chat.ChatSe
 	}
 
 }
-
 
 func ingresarordenesretail(nombreexcel string, tiempoespera string, c chat.ChatServiceClient) bool {
 	csvfile, err := os.Open(nombreexcel)
