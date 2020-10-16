@@ -54,6 +54,7 @@ func ingresarordenespymes(nombreexcel string, tiempoespera string, c chat.ChatSe
 	defer csvfile.Close()
 	var prioritarioBool bool
 	r := csv.NewReader(csvfile)
+	row, err := r.Read() // Saltarse la gracias primera linea
 	for {
 		row, err := r.Read()
 		if err != nil {
@@ -116,12 +117,12 @@ func ingresarordenesretail(nombreexcel string, tiempoespera string, c chat.ChatS
 			Destino:  row[4],
 		}
 
-		response, err := c.RedecirOrdenRetail(context.Background(), &orden)
+		response, err := c.RecibirOrdenRetail(context.Background(), &orden)
 		if err != nil {
-			log.Fatalf("Error usando RedecirOrdenRetail: %s", err)
+			log.Fatalf("Error usando RecibirOrdenRetail: %s", err)
 		}
 
-		log.Printf("Respuesta de RedecirOrdenRetail: %s", response.Producto)
+		log.Printf("Codigo de seguimiento: %s", response.Nordenseguimiento)
 		time.Sleep(time.Second * time.Duration(int64(tiempoesperaint)))
 	}
 }
