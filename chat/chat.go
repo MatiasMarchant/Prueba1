@@ -41,6 +41,7 @@ type PaqueteEnMarcha struct {
 	intentos      string
 	origen        string
 	destino       string
+	timestamp     time.Time
 }
 
 //Server es
@@ -51,6 +52,21 @@ type Server struct {
 	ColaPrioritario  []Cola
 	ColaNormal       []Cola
 	PaquetesEnMarcha []PaqueteEnMarcha
+}
+
+//ActualizarRegistroPaqueteCamionNormal es
+func (s *Server) ActualizarRegistroPaqueteCamionNormal(ctx context.Context, message *PaqueteEnviado) (*PaqueteEnviado, error) {
+	// Actualizar PaquetesEnMarcha
+	for _, elem := range s.PaquetesEnMarcha {
+		if message.Idpaquete == elem.idpaquete {
+			elem.estado = message.Estado
+			elem.intentos = message.Intentos
+			elem.timestamp = time.Now()
+		}
+	}
+
+	// Notificar a financiero
+	return message, nil
 }
 
 //EntregarPaqueteCamionNormal es
@@ -112,6 +128,7 @@ func (s *Server) EntregarPaqueteCamionNormal(ctx context.Context, message *IdCam
 			intentos:      s.ColaPrioritario[indicemascaro].intentos,
 			origen:        s.ColaPrioritario[indicemascaro].origen,
 			destino:       s.ColaPrioritario[indicemascaro].destino,
+			timestamp:     time.Time{},
 		}
 
 		// Quitar elemento mas caro de la cola
@@ -164,6 +181,7 @@ func (s *Server) EntregarPaqueteCamionNormal(ctx context.Context, message *IdCam
 			intentos:      s.ColaNormal[indicemascaro].intentos,
 			origen:        s.ColaNormal[indicemascaro].origen,
 			destino:       s.ColaNormal[indicemascaro].destino,
+			timestamp:     time.Time{},
 		}
 
 		// Quitar elemento mas caro de la cola
@@ -290,7 +308,16 @@ func (s *Server) RedecirOrdenRetail(ctx context.Context, message *Ordenclientere
 //CodigoSeguimiento es
 func (s *Server) CodigoSeguimiento(ctx context.Context, message *Ordenseguimiento) (*Estado, error) {
 	mensajeError := Estado{
-		Estado: "No se pudo encontrar código",
+		Estado: "En bodega",
 	}
+	for _, elem := range s.PaquetesEnMarcha {
+		if message.Nordenseguimiento == elem.idseguimiento {
+			mensajeFinal := Estado{
+				Estado: elem.estado,
+			}
+			return &mensajeFinal, nil
+		}
+	}
+
 	return &mensajeError, nil
 }

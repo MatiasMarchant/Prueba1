@@ -40,7 +40,7 @@ func preguntasinicialescamion() (string, string) {
 }
 
 //Entregarpaquete es
-func Entregarpaquete(paquete *chat.ColaPaquete, ListaRegistroCamion []RegistroCamion) chat.ColaPaquete {
+func Entregarpaquete(paquete *chat.ColaPaquete, ListaRegistroCamion []RegistroCamion, c chat.ChatServiceClient, idcamion string) chat.ColaPaquete {
 	//fmt.Println(paquete)
 	paquete.Estado = "En camino"
 	exito := rand.Float64()
@@ -54,6 +54,19 @@ func Entregarpaquete(paquete *chat.ColaPaquete, ListaRegistroCamion []RegistroCa
 		}
 		paquete.Estado = "Recibido"
 		// Se notifica a logistica
+		nuevoPaqueteEnviado := chat.PaqueteEnviado{
+			Idpaquete:   paquete.Idpaquete,
+			Seguimiento: paquete.Seguimiento,
+			Tipo:        paquete.Tipo,
+			Valor:       paquete.Valor,
+			Intentos:    paquete.Intentos,
+			Estado:      paquete.Estado,
+			Origen:      paquete.Origen,
+			Destino:     paquete.Destino,
+			Idcamion:    idcamion,
+		}
+
+		c.ActualizarRegistroPaqueteCamionNormal(context.Background(), &nuevoPaqueteEnviado)
 
 	} else {
 		// No se entrega paquete - depende de tipo ver q se hace
@@ -117,7 +130,7 @@ func main() {
 				ListaRegistroCamion = append(ListaRegistroCamion, nuevoRegistro)
 
 				// Marchar solo con paquete
-				*paquete = Entregarpaquete(paquete, ListaRegistroCamion)
+				*paquete = Entregarpaquete(paquete, ListaRegistroCamion, c, idcamion.Idcamion)
 				time.Sleep(time.Second * time.Duration(int64(tiempodemoraint)))
 
 				//fmt.Println(paquete)
@@ -158,12 +171,12 @@ func main() {
 				if valor1 > valor2 {
 					// Se entrega paquete primero
 
-					*paquete = Entregarpaquete(paquete, ListaRegistroCamion)
-					*paquete2 = Entregarpaquete(paquete2, ListaRegistroCamion)
+					*paquete = Entregarpaquete(paquete, ListaRegistroCamion, c, idcamion.Idcamion)
+					*paquete2 = Entregarpaquete(paquete2, ListaRegistroCamion, c, idcamion.Idcamion)
 				} else {
 					// Se entrega paquete2 primero
-					*paquete2 = Entregarpaquete(paquete2, ListaRegistroCamion)
-					*paquete = Entregarpaquete(paquete, ListaRegistroCamion)
+					*paquete2 = Entregarpaquete(paquete2, ListaRegistroCamion, c, idcamion.Idcamion)
+					*paquete = Entregarpaquete(paquete, ListaRegistroCamion, c, idcamion.Idcamion)
 
 				}
 
