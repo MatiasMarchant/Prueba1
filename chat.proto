@@ -38,11 +38,24 @@ message ColaPaquete {
     string destino = 8;
 }
 
+message PaqueteEnviado {
+    string idpaquete = 1;
+    string seguimiento = 2;
+    string tipo = 3;
+    string valor = 4;
+    string intentos = 5;
+    string estado = 6;
+    string origen = 7;
+    string destino = 8;
+    string idcamion = 9;
+}
+
 message IdCamion {
     string idcamion = 1;
 }
 
 service ChatService {
+    rpc ActualizarRegistroPaqueteCamionNormal(PaqueteEnviado) returns (PaqueteEnviado) {}
     rpc EntregarPaqueteCamionNormal(IdCamion) returns (ColaPaquete) {}
     rpc RecibirOrdenPymes(Ordenclientepymes) returns (Ordenseguimiento) {}
     rpc RedecirOrdenPymes(Ordenclientepymes) returns (Ordenclientepymes) {}
