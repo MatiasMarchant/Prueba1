@@ -154,11 +154,11 @@ func main() {
 	var ListaRegistroCamion []RegistroCamion
 	var tiempoespera, tiempodemora string
 	tiempoespera, tiempodemora = preguntasinicialescamion()
-	tiempodemoraint, _ := strconv.Atoi(strings.TrimSuffix(tiempodemora, "\r\n")) // CUIDADO LINUX
-	tiempoesperaint, _ := strconv.Atoi(strings.TrimSuffix(tiempoespera, "\r\n")) // CUIDADO LINUX
+	tiempodemoraint, _ := strconv.Atoi(strings.TrimSuffix(tiempodemora, "\n")) // CUIDADO LINUX
+	tiempoesperaint, _ := strconv.Atoi(strings.TrimSuffix(tiempoespera, "\n")) // CUIDADO LINUX
 
 	var conn *grpc.ClientConn
-	conn, err := grpc.Dial(":9000", grpc.WithInsecure())
+	conn, err := grpc.Dial("dist37:9000", grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("No me pude conectar al puerto 9001: %s", err)
 	}

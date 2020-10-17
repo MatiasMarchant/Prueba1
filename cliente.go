@@ -18,7 +18,7 @@ import (
 
 func ingresarordenespymes(nombreexcel string, tiempoespera string, c chat.ChatServiceClient) bool {
 	csvfile, err := os.Open(nombreexcel)
-	tiempoesperaint, _ := strconv.Atoi(strings.TrimSuffix(tiempoespera, "\r\n")) // DANGER
+	tiempoesperaint, _ := strconv.Atoi(strings.TrimSuffix(tiempoespera, "\n")) // DANGER
 	if err != nil {
 		log.Fatalln("No pude abrir el csv:", err)
 	}
@@ -63,7 +63,7 @@ func ingresarordenespymes(nombreexcel string, tiempoespera string, c chat.ChatSe
 
 func ingresarordenesretail(nombreexcel string, tiempoespera string, c chat.ChatServiceClient) bool {
 	csvfile, err := os.Open(nombreexcel)
-	tiempoesperaint, _ := strconv.Atoi(strings.TrimSuffix(tiempoespera, "\r\n")) // CUIDADO \r POR WINDOWS
+	tiempoesperaint, _ := strconv.Atoi(strings.TrimSuffix(tiempoespera, "\n")) // CUIDADO \r POR WINDOWS
 	if err != nil {
 		log.Fatalln("No pude abrir el csv:", err)
 	}
@@ -117,7 +117,7 @@ func main() {
 	//fmt.Println("tiempoespera:", tiempoespera)
 
 	var conn *grpc.ClientConn
-	conn, err := grpc.Dial(":9000", grpc.WithInsecure())
+	conn, err := grpc.Dial("dist37:9000", grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("could not connect: %s", err)
 	}
@@ -125,26 +125,26 @@ func main() {
 
 	c := chat.NewChatServiceClient(conn)
 
-	if string(tipotienda) == "pymes\r\n" { // CUIDADO HAY Q CAMBIAR A SOLO \n CUANDO LO PASEMOS A LAS MAQUINAS VIRTUALES (CREOOOOOOOOOOOOOOOOOOOOOOO) XD EL \r ES PQ ESTOY EN WINDOWS, FUCK WINDOWS
+	if string(tipotienda) == "pymes\n" { // CUIDADO HAY Q CAMBIAR A SOLO \n CUANDO LO PASEMOS A LAS MAQUINAS VIRTUALES (CREOOOOOOOOOOOOOOOOOOOOOOO) XD EL \r ES PQ ESTOY EN WINDOWS, FUCK WINDOWS
 		fmt.Println("Entre a tipotienda == pymes")
 		go ingresarordenespymes("pymes.csv", tiempoespera, c)
-	} else if string(tipotienda) == "retail\r\n" {
+	} else if string(tipotienda) == "retail\n" {
 		fmt.Println("Entre a tipotienda == retail")
 		ingresarordenesretail("retail.csv", tiempoespera, c)
 	}
 
 	leeropcion := bufio.NewReader(os.Stdin)
-	if string(tipotienda) == "pymes\r\n" {
+	if string(tipotienda) == "pymes\n" {
 		for true {
 			fmt.Println("Ingrese codigo de seguimiento, si quiere salir ingrese exit")
 			fmt.Printf("> ")
 			opcion, _ := leeropcion.ReadString('\n')
 			opcion = strings.Replace(opcion, "\n", "", -1)
-			if opcion == "exit\r\n" {
+			if opcion == "exit\n" {
 				break
 			} else { // Codigo de seguimiento
 				codigoseguimiento, _ := leeropcion.ReadString('\n')
-				codigoseguimiento = strings.TrimSuffix(codigoseguimiento, "\r\n")
+				codigoseguimiento = strings.TrimSuffix(codigoseguimiento, "\n")
 				orden := chat.Ordenseguimiento{
 					Nordenseguimiento: codigoseguimiento,
 				}
