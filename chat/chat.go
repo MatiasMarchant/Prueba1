@@ -54,6 +54,150 @@ type Server struct {
 	PaquetesEnMarcha []PaqueteEnMarcha
 }
 
+//ActualizarRegistroPaqueteCamionRetail es
+func (s *Server) ActualizarRegistroPaqueteCamionRetail(ctx context.Context, message *PaqueteEnviado) (*PaqueteEnviado, error) {
+	// Actualizar PaquetesEnMarcha
+	for _, elem := range s.PaquetesEnMarcha {
+		if message.Idpaquete == elem.idpaquete {
+			elem.estado = message.Estado
+			elem.intentos = message.Intentos
+			elem.timestamp = time.Now()
+		}
+	}
+
+	// Notificar a financiero
+	return message, nil
+}
+
+//EntregarPaqueteCamionRetail es
+func (s *Server) EntregarPaqueteCamionRetail(ctx context.Context, message *IdCamion) (*ColaPaquete, error) {
+	messageColaPaqueteError := ColaPaquete{
+		Idpaquete:   "NoPaquetes",
+		Seguimiento: "",
+		Tipo:        "",
+		Valor:       "",
+		Intentos:    "",
+		Estado:      "",
+		Origen:      "",
+		Destino:     "",
+	}
+	if len(s.ColaRetail) < 1 && len(s.ColaPrioritario) < 1 { // NoPaquetes ninguna cola
+		return &messageColaPaqueteError, nil
+	}
+
+	indicemascaro := 0
+	elemmascaro := 0
+	iterador := 0
+	/*
+		fmt.Println("---")
+		fmt.Println(len(s.ColaPrioritario))
+		fmt.Println("---")
+	*/
+
+	if len(s.ColaRetail) > 1 {
+		//fmt.Println("Entre a ColaRetail")
+		// Busqueda paquete mas caro
+		for _, elem := range s.ColaRetail {
+			value, _ := strconv.Atoi(elem.valor)
+			// Buscar elemento más caro
+			if value > elemmascaro {
+				indicemascaro = iterador
+				elemmascaro = value
+			}
+			iterador++
+		}
+
+		// Preparacion retorno paquete Retail mas caro
+
+		messageColaPaquete := ColaPaquete{
+			Idpaquete:   s.ColaRetail[indicemascaro].idpaquete,
+			Seguimiento: s.ColaRetail[indicemascaro].seguimiento,
+			Tipo:        s.ColaRetail[indicemascaro].tipo,
+			Valor:       s.ColaRetail[indicemascaro].valor,
+			Intentos:    s.ColaRetail[indicemascaro].intentos,
+			Estado:      s.ColaRetail[indicemascaro].estado,
+			Origen:      s.ColaRetail[indicemascaro].origen,
+			Destino:     s.ColaRetail[indicemascaro].destino,
+		}
+
+		nuevoPaquete := PaqueteEnMarcha{
+			idpaquete:     s.ColaRetail[indicemascaro].idpaquete,
+			estado:        s.ColaRetail[indicemascaro].estado,
+			idcamion:      message.Idcamion,
+			idseguimiento: s.ColaRetail[indicemascaro].seguimiento,
+			intentos:      s.ColaRetail[indicemascaro].intentos,
+			origen:        s.ColaRetail[indicemascaro].origen,
+			destino:       s.ColaRetail[indicemascaro].destino,
+			timestamp:     time.Time{},
+		}
+
+		// Quitar elemento mas caro de la cola
+
+		// https://yourbasic.org/golang/delete-element-slice/
+		s.ColaRetail[indicemascaro] = s.ColaRetail[len(s.ColaRetail)-1]
+		s.ColaRetail = s.ColaRetail[:len(s.ColaRetail)-1]
+		//log.Println(&messageColaPaquete)
+
+		//fmt.Println(s.ColaRetail)
+
+		s.PaquetesEnMarcha = append(s.PaquetesEnMarcha, nuevoPaquete)
+
+		return &messageColaPaquete, nil
+	}
+
+	indicemascaro = 0
+	elemmascaro = 0
+	iterador = 0
+	if len(s.ColaPrioritario) > 1 {
+		// Busqueda paquete mas caro
+		for _, elem := range s.ColaPrioritario {
+			value, _ := strconv.Atoi(elem.valor)
+			// Buscar elemento más caro
+			if value > elemmascaro {
+				indicemascaro = iterador
+				elemmascaro = value
+			}
+			iterador++
+		}
+
+		// Preparacion retorno paquete Prioritario mas caro
+
+		messageColaPaquete := ColaPaquete{
+			Idpaquete:   s.ColaPrioritario[indicemascaro].idpaquete,
+			Seguimiento: s.ColaPrioritario[indicemascaro].seguimiento,
+			Tipo:        s.ColaPrioritario[indicemascaro].tipo,
+			Valor:       s.ColaPrioritario[indicemascaro].valor,
+			Intentos:    s.ColaPrioritario[indicemascaro].intentos,
+			Estado:      s.ColaPrioritario[indicemascaro].estado,
+			Origen:      s.ColaPrioritario[indicemascaro].origen,
+			Destino:     s.ColaPrioritario[indicemascaro].destino,
+		}
+
+		nuevoPaquete := PaqueteEnMarcha{
+			idpaquete:     s.ColaPrioritario[indicemascaro].idpaquete,
+			estado:        s.ColaPrioritario[indicemascaro].estado,
+			idcamion:      message.Idcamion,
+			idseguimiento: s.ColaPrioritario[indicemascaro].seguimiento,
+			intentos:      s.ColaPrioritario[indicemascaro].intentos,
+			origen:        s.ColaPrioritario[indicemascaro].origen,
+			destino:       s.ColaPrioritario[indicemascaro].destino,
+			timestamp:     time.Time{},
+		}
+
+		// Quitar elemento mas caro de la cola
+
+		// https://yourbasic.org/golang/delete-element-slice/
+		s.ColaPrioritario[indicemascaro] = s.ColaPrioritario[len(s.ColaPrioritario)-1]
+		s.ColaPrioritario = s.ColaPrioritario[:len(s.ColaPrioritario)-1]
+		//log.Println(&messageColaPaquete)
+
+		s.PaquetesEnMarcha = append(s.PaquetesEnMarcha, nuevoPaquete)
+
+		return &messageColaPaquete, nil
+	}
+	return &messageColaPaqueteError, nil
+}
+
 //ActualizarRegistroPaqueteCamionNormal es
 func (s *Server) ActualizarRegistroPaqueteCamionNormal(ctx context.Context, message *PaqueteEnviado) (*PaqueteEnviado, error) {
 	// Actualizar PaquetesEnMarcha
