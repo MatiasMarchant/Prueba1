@@ -41,7 +41,7 @@ func preguntasinicialescamion() (string, string) {
 
 //Entregarpaquete es
 func Entregarpaquete(paquete *chat.ColaPaquete, ListaRegistroCamion []RegistroCamion) chat.ColaPaquete {
-	fmt.Println(paquete)
+	//fmt.Println(paquete)
 	paquete.Estado = "En camino"
 	exito := rand.Float64()
 	if exito < 0.8 {

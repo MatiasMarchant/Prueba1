@@ -171,7 +171,7 @@ func (s *Server) EntregarPaqueteCamionNormal(ctx context.Context, message *IdCam
 		// https://yourbasic.org/golang/delete-element-slice/
 		s.ColaNormal[indicemascaro] = s.ColaNormal[len(s.ColaNormal)-1]
 		s.ColaNormal = s.ColaNormal[:len(s.ColaNormal)-1]
-		log.Println(&messageColaPaquete)
+		//log.Println(&messageColaPaquete)
 
 		s.PaquetesEnMarcha = append(s.PaquetesEnMarcha, nuevoPaquete)
 
