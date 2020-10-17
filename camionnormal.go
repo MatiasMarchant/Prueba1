@@ -118,6 +118,7 @@ func main() {
 
 				// Marchar solo con paquete
 				*paquete = Entregarpaquete(paquete, ListaRegistroCamion)
+				time.Sleep(time.Second * time.Duration(int64(tiempodemoraint)))
 
 				//fmt.Println(paquete)
 				//os.Exit(0)
