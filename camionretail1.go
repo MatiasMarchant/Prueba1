@@ -169,7 +169,7 @@ func main() {
 
 	// time.Sleep(time.Second * time.Duration(int64(tiempoesperaint)))
 	idcamion := chat.IdCamion{
-		Idcamion: "1",
+		Idcamion: "2",
 	}
 
 	for true {

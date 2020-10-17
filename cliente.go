@@ -138,25 +138,26 @@ func main() {
 	}
 
 	leeropcion := bufio.NewReader(os.Stdin)
-	for true {
-		fmt.Println("Ingrese codigo de seguimiento, si quiere salir ingrese exit")
-		fmt.Printf("> ")
-		opcion, _ := leeropcion.ReadString('\n')
-		opcion = strings.Replace(opcion, "\n", "", -1)
-		if opcion == "exit\r\n" {
-			break
-		} else { // Codigo de seguimiento
-			codigoseguimiento, _ := leeropcion.ReadString('\n')
-			codigoseguimiento = strings.TrimSuffix(codigoseguimiento, "\r\n")
-			orden := chat.Ordenseguimiento{
-				Nordenseguimiento: codigoseguimiento,
+	if string(tipotienda) == "pymes\r\n" {
+		for true {
+			fmt.Println("Ingrese codigo de seguimiento, si quiere salir ingrese exit")
+			fmt.Printf("> ")
+			opcion, _ := leeropcion.ReadString('\n')
+			opcion = strings.Replace(opcion, "\n", "", -1)
+			if opcion == "exit\r\n" {
+				break
+			} else { // Codigo de seguimiento
+				codigoseguimiento, _ := leeropcion.ReadString('\n')
+				codigoseguimiento = strings.TrimSuffix(codigoseguimiento, "\r\n")
+				orden := chat.Ordenseguimiento{
+					Nordenseguimiento: codigoseguimiento,
+				}
+				respuesta, err := c.CodigoSeguimiento(context.Background(), &orden)
+				if err != nil {
+					log.Fatalf("Error usando c.CodigoSeguimiento")
+				}
+				fmt.Println("El estado de su pedido es:", respuesta.Estado)
 			}
-			respuesta, err := c.CodigoSeguimiento(context.Background(), &orden)
-			if err != nil {
-				log.Fatalf("Error usando c.CodigoSeguimiento")
-			}
-			fmt.Println("El estado de su pedido es:", respuesta.Estado)
 		}
 	}
-
 }

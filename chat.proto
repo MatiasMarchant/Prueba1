@@ -55,6 +55,8 @@ message IdCamion {
 }
 
 service ChatService {
+    rpc ActualizarRegistroPaqueteCamionRetail(PaqueteEnviado) returns (PaqueteEnviado) {}
+    rpc EntregarPaqueteCamionRetail(IdCamion) returns (ColaPaquete) {}
     rpc ActualizarRegistroPaqueteCamionNormal(PaqueteEnviado) returns (PaqueteEnviado) {}
     rpc EntregarPaqueteCamionNormal(IdCamion) returns (ColaPaquete) {}
     rpc RecibirOrdenPymes(Ordenclientepymes) returns (Ordenseguimiento) {}
