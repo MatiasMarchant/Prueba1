@@ -89,12 +89,8 @@ func ingresarordenesretail(nombreexcel string, tiempoespera string, c chat.ChatS
 			Destino:  row[4],
 		}
 
-		response, err := c.RecibirOrdenRetail(context.Background(), &orden)
-		if err != nil {
-			log.Fatalf("Error usando RecibirOrdenRetail: %s", err)
-		}
+		c.RecibirOrdenRetail(context.Background(), &orden)
 
-		log.Printf("Codigo de seguimiento: %s", response.Nordenseguimiento)
 		time.Sleep(time.Second * time.Duration(int64(tiempoesperaint)))
 	}
 }
@@ -134,7 +130,7 @@ func main() {
 		go ingresarordenespymes("pymes.csv", tiempoespera, c)
 	} else if string(tipotienda) == "retail\r\n" {
 		fmt.Println("Entre a tipotienda == retail")
-		go ingresarordenesretail("retail.csv", tiempoespera, c)
+		ingresarordenesretail("retail.csv", tiempoespera, c)
 	}
 
 	leeropcion := bufio.NewReader(os.Stdin)

@@ -36,7 +36,7 @@ func main() {
 		for {
 			time.Sleep(3 * time.Second)
 			log.Printf("Paquetes:\n")
-			log.Println(s.PaquetesEnMarcha)
+			log.Println(s.ColaRetail)
 			log.Printf("\n")
 		}
 	}()

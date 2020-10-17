@@ -116,7 +116,7 @@ func (s *Server) EntregarPaqueteCamionRetail(ctx context.Context, message *IdCam
 		fmt.Println("---")
 	*/
 
-	if len(s.ColaRetail) > 1 {
+	if len(s.ColaRetail) >= 1 {
 		//fmt.Println("Entre a ColaRetail")
 		// Busqueda paquete mas caro
 		for _, elem := range s.ColaRetail {
@@ -170,7 +170,7 @@ func (s *Server) EntregarPaqueteCamionRetail(ctx context.Context, message *IdCam
 	indicemascaro = 0
 	elemmascaro = 0
 	iterador = 0
-	if len(s.ColaPrioritario) > 1 {
+	if len(s.ColaPrioritario) >= 1 {
 		// Busqueda paquete mas caro
 		for _, elem := range s.ColaPrioritario {
 			value, _ := strconv.Atoi(elem.valor)
@@ -282,7 +282,7 @@ func (s *Server) EntregarPaqueteCamionNormal(ctx context.Context, message *IdCam
 		fmt.Println("---")
 	*/
 
-	if len(s.ColaPrioritario) > 1 {
+	if len(s.ColaPrioritario) >= 1 {
 		//fmt.Println("Entre a ColaPrioritario")
 		// Busqueda paquete mas caro
 		for _, elem := range s.ColaPrioritario {
@@ -336,7 +336,7 @@ func (s *Server) EntregarPaqueteCamionNormal(ctx context.Context, message *IdCam
 	indicemascaro = 0
 	elemmascaro = 0
 	iterador = 0
-	if len(s.ColaNormal) > 1 {
+	if len(s.ColaNormal) >= 1 {
 		// Busqueda paquete mas caro
 		for _, elem := range s.ColaNormal {
 			value, _ := strconv.Atoi(elem.valor)
@@ -448,7 +448,7 @@ func (s *Server) RedecirOrdenPymes(ctx context.Context, message *Ordenclientepym
 //RecibirOrdenRetail es
 func (s *Server) RecibirOrdenRetail(ctx context.Context, message *Ordenclienteretail) (*Ordenseguimiento, error) {
 	messageOrdenseguimiento := Ordenseguimiento{
-		Nordenseguimiento: s.Seguimiento,
+		Nordenseguimiento: "9999",
 	}
 
 	nuevaEntrada := Registro{
@@ -459,12 +459,12 @@ func (s *Server) RecibirOrdenRetail(ctx context.Context, message *Ordenclientere
 		valor:       strconv.Itoa(int(message.Valor)),
 		origen:      message.Tienda,
 		destino:     message.Destino,
-		seguimiento: s.Seguimiento,
+		seguimiento: "9999",
 	}
 
 	nuevaCola := Cola{
 		idpaquete:   message.Id,
-		seguimiento: s.Seguimiento,
+		seguimiento: "9999",
 		tipo:        "retail",
 		valor:       strconv.Itoa(int(message.Valor)),
 		intentos:    "0",
@@ -477,10 +477,6 @@ func (s *Server) RecibirOrdenRetail(ctx context.Context, message *Ordenclientere
 	s.ColaRetail = append(s.ColaRetail, nuevaCola)
 	//log.Println(s.ColaRetail)
 
-	// Actualizacion codigo de seguimiento (atributo Server)
-	numerosiguiente, _ := strconv.Atoi(s.Seguimiento)
-	numerosiguiente++
-	s.Seguimiento = strconv.Itoa(numerosiguiente)
 	s.ListaRegistro = append(s.ListaRegistro, nuevaEntrada)
 	//log.Println(s.ListaRegistro)
 	return &messageOrdenseguimiento, nil
