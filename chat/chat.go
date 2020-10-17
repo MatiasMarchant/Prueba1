@@ -57,13 +57,35 @@ type Server struct {
 //ActualizarRegistroPaqueteCamionRetail es
 func (s *Server) ActualizarRegistroPaqueteCamionRetail(ctx context.Context, message *PaqueteEnviado) (*PaqueteEnviado, error) {
 	// Actualizar PaquetesEnMarcha
+
+	// Buscar indice
+	indice := 0
+	contador := 0
 	for _, elem := range s.PaquetesEnMarcha {
 		if message.Idpaquete == elem.idpaquete {
-			elem.estado = message.Estado
-			elem.intentos = message.Intentos
-			elem.timestamp = time.Now()
+			indice = contador
+		} else {
+			contador++
 		}
 	}
+
+	// Agregar paquete modificado al final
+	paqueteModificado := PaqueteEnMarcha{
+		idpaquete:     message.Idpaquete,
+		estado:        message.Estado,
+		idcamion:      message.Idcamion,
+		idseguimiento: message.Seguimiento,
+		intentos:      message.Intentos,
+		origen:        message.Origen,
+		destino:       message.Destino,
+		timestamp:     time.Now(),
+	}
+
+	s.PaquetesEnMarcha = append(s.PaquetesEnMarcha, paqueteModificado)
+
+	// Reemplazar indice por el ultimo, y acortar lista
+	s.PaquetesEnMarcha[indice] = s.PaquetesEnMarcha[len(s.PaquetesEnMarcha)-1]
+	s.PaquetesEnMarcha = s.PaquetesEnMarcha[:len(s.PaquetesEnMarcha)-1]
 
 	// Notificar a financiero
 	return message, nil
@@ -201,13 +223,35 @@ func (s *Server) EntregarPaqueteCamionRetail(ctx context.Context, message *IdCam
 //ActualizarRegistroPaqueteCamionNormal es
 func (s *Server) ActualizarRegistroPaqueteCamionNormal(ctx context.Context, message *PaqueteEnviado) (*PaqueteEnviado, error) {
 	// Actualizar PaquetesEnMarcha
+
+	// Buscar indice
+	indice := 0
+	contador := 0
 	for _, elem := range s.PaquetesEnMarcha {
 		if message.Idpaquete == elem.idpaquete {
-			elem.estado = message.Estado
-			elem.intentos = message.Intentos
-			elem.timestamp = time.Now()
+			indice = contador
+		} else {
+			contador++
 		}
 	}
+
+	// Agregar paquete modificado al final
+	paqueteModificado := PaqueteEnMarcha{
+		idpaquete:     message.Idpaquete,
+		estado:        message.Estado,
+		idcamion:      message.Idcamion,
+		idseguimiento: message.Seguimiento,
+		intentos:      message.Intentos,
+		origen:        message.Origen,
+		destino:       message.Destino,
+		timestamp:     time.Now(),
+	}
+
+	s.PaquetesEnMarcha = append(s.PaquetesEnMarcha, paqueteModificado)
+
+	// Reemplazar indice por el ultimo, y acortar lista
+	s.PaquetesEnMarcha[indice] = s.PaquetesEnMarcha[len(s.PaquetesEnMarcha)-1]
+	s.PaquetesEnMarcha = s.PaquetesEnMarcha[:len(s.PaquetesEnMarcha)-1]
 
 	// Notificar a financiero
 	return message, nil

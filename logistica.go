@@ -1,10 +1,10 @@
 package main
 
 import (
+	"github.com/MatiasMarchant/Prueba1/tree/master/chat"
 	"log"
 	"net"
-
-	"github.com/MatiasMarchant/Prueba1/tree/master/chat"
+	"time"
 	//"chat"
 	"google.golang.org/grpc"
 )
@@ -31,6 +31,15 @@ func main() {
 	grpcServer := grpc.NewServer()
 
 	chat.RegisterChatServiceServer(grpcServer, &s)
+
+	go func() {
+		for {
+			time.Sleep(3 * time.Second)
+			log.Printf("Paquetes:\n")
+			log.Println(s.PaquetesEnMarcha)
+			log.Printf("\n")
+		}
+	}()
 
 	if err := grpcServer.Serve(lis); err != nil {
 		log.Fatalf("Falle siendo un servidor gRPC en el puerto 9000: %v", err)
