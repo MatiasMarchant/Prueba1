@@ -39,16 +39,7 @@ type PaqueteEnMarcha struct {
 	Timestamp     time.Time
 }
 
-type Cola struct {
-	Idpaquete   string
-	Seguimiento string
-	Tipo        string
-	Valor       string
-	Intentos    string
-	Estado      string
-	Origen      string
-	Destino     string
-}
+
 
 func InArr(id string, arr []string) bool {
     for _, i := range arr {
@@ -61,8 +52,7 @@ func InArr(id string, arr []string) bool {
 
 func tipoYvalor (idpaquete string, 
 				 colaRetail []chat.Cola,
-				 colaPrioritario []chat.Cola,
-				 colaNormal []chat.Cola) (string, int){
+				) (string, int){
 
 	var tipo string
 	var valor int
@@ -75,26 +65,9 @@ func tipoYvalor (idpaquete string,
             return tipo, valor
         }
 	}
-	for _, cola := range colaPrioritario {
-		if cola.Idpaquete == idpaquete {
-			fmt.Println("?")
-			tipo = cola.Tipo
-			v, _ := strconv.Atoi(cola.Valor )
-			valor = v
-            return tipo, valor
-        }
-	}
-	for _, cola := range colaNormal {
-		if cola.Idpaquete == idpaquete {
-			fmt.Println("?")
-			tipo = cola.Tipo
-			v, _ := strconv.Atoi(cola.Valor )
-			valor = v
-            return tipo, valor
-        }
-	}
 
-	return tipo, valor //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+	return tipo, valor
 }
 
 func procesarEntregas(paquetesProcesados []string, 
@@ -217,11 +190,7 @@ func main() {
 			time.Sleep(2 * time.Second)
 			
 			paquetesProcesados, entregasProcesadas = procesarEntregas(paquetesProcesados,
-																	  s.PaquetesEnMarcha,
-																	  s.ColaRetail,
-																	  s.ColaPrioritario,
-																	  s.ColaNormal,
-																	)
+																	  s.ListaRegistro)
 
 			fmt.Println(s.PaquetesEnMarcha) //Borrar................
 			fmt.Println(s.ListaRegistro)
