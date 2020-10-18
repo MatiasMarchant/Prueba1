@@ -7,7 +7,106 @@ import (
 	"time"
 	//"chat"
 	"google.golang.org/grpc"
+	"fmt"
+	"github.com/streadway/amqp"
+	"encoding/json"
+
+	"reflect" //-------------
 )
+
+
+type Entrega struct {
+	Id_paquete int
+	Tipo string
+	Valor int
+	Origen string
+	Destino string
+	Intentos int	
+	Fecha_entrega int
+}
+
+
+
+
+func procesarEntregas(paquetesProcesados, ColaRetail){ //([]int , []Entrega){
+	
+
+	for _, Paquete := range ColaRetail {
+		fmt.Println(entrega)
+		fmt.Println(reflect.TypeOf(entrega))
+
+		//entregaProcesada := &Entrega{Id_paquete:int, Tipo:str, Valor:int, Origen:str, Destino:str, Intentos:int, Fecha_entrega:int}
+
+		/*for _, idPaquete := range paquetesProcesados {
+			if idPaquete == entregaProcesada.Id_paquete {
+				// Found!
+			}
+		}*/
+
+	}
+
+
+
+
+
+	//iterar ColaRetail
+	
+	//return paquetesProcesados, entregasProcesadas
+}
+
+
+func enviarRabbit(entregasProcesadas []Entrega) {
+	conn, err := amqp.Dial("amqp://mqadmin:mqadminpassword@10.6.40.180:5672/")
+	if err != nil {
+		fmt.Println("Falla inicializando conección")
+		panic(err)
+	}
+
+	ch, err := conn.Channel()
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer ch.Close()
+
+	q, err := ch.QueueDeclare(
+		"TestQueue",
+		false,
+		false,
+		false,
+		false,
+		nil,
+	)
+
+	fmt.Println(q)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	//ent := &Entrega{Id_paquete:ranId, Tipo:tipos[randT], Valor:ranV, Origen:"tienda-A", Destino:"casa-A", Intentos:randI, Fecha_entrega:0}
+	
+	for _, entrega := entregasProcesadas  {
+
+		js, err := json.Marshal(entrega)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+
+		err = ch.Publish(
+			"",
+			"TestQueue",
+			false,
+			false,
+			amqp.Publishing{
+				ContentType:  "application/json",
+				Body:         js,
+			},
+		)
+
+		if err != nil {
+			fmt.Println(err)
+		}
+}
 
 func main() {
 	lis, err := net.Listen("tcp", ":9000")
@@ -32,12 +131,14 @@ func main() {
 
 	chat.RegisterChatServiceServer(grpcServer, &s)
 
+	var paquetesProcesados []int
+
 	go func() {
 		for {
-			time.Sleep(3 * time.Second)
-			log.Printf("Paquetes:\n")
-			log.Println(s.ColaRetail)
-			log.Printf("\n")
+			time.Sleep(2 * time.Second)
+			//paquetesProcesados, entregasProcesadas = procesarEntregas(paquetesProcesados, s.ColaRetail)
+			procesarEntregas(paquetesProcesados, s.ColaRetail)
+			//enviarRabbit(entregasProcesadas)
 		}
 	}()
 
