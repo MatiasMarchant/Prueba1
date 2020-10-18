@@ -55,7 +55,7 @@ func procesarEntregas(paquetesProcesados, ColaRetail){ //([]int , []Entrega){
 }
 
 
-func enviarRabbit(entregasProcesadas []Entrega) {
+/*func enviarRabbit(entregasProcesadas []Entrega) {
 	conn, err := amqp.Dial("amqp://mqadmin:mqadminpassword@10.6.40.180:5672/")
 	if err != nil {
 		fmt.Println("Falla inicializando conección")
@@ -106,7 +106,7 @@ func enviarRabbit(entregasProcesadas []Entrega) {
 		if err != nil {
 			fmt.Println(err)
 		}
-}
+}*/
 
 func main() {
 	lis, err := net.Listen("tcp", ":9000")
