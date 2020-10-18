@@ -70,21 +70,24 @@ func tipoYvalor (idpaquete string,
 	for _, cola := range colaRetail {
 		if cola.Idpaquete == idpaquete {
 			tipo = cola.Tipo
-			valor = cola.Valor
+			v, _ := strconv.Atoi(cola.Valor )
+			valor = v
             return tipo, valor
         }
 	}
 	for _, cola := range colaPrioritario {
 		if cola.Idpaquete == idpaquete {
 			tipo = cola.Tipo
-			valor = cola.Valor
+			v, _ := strconv.Atoi(cola.Valor )
+			valor = v
             return tipo, valor
         }
 	}
 	for _, cola := range colaNormal {
 		if cola.Idpaquete == idpaquete {
 			tipo = cola.Tipo
-			valor = cola.Valor
+			v, _ := strconv.Atoi(cola.Valor )
+			valor = v
             return tipo, valor
         }
 	}
