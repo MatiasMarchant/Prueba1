@@ -161,6 +161,7 @@ func main() {
 			
 			paquetesProcesados, entregasProcesadas = procesarEntregas(paquetesProcesados, s.PaquetesEnMarcha)
 
+			fmt.Println(s.PaquetesEnMarcha)
 			fmt.Println(paquetesProcesados)
 			fmt.Println(entregasProcesadas)
 			fmt.Println("____________")
