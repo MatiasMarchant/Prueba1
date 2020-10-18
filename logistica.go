@@ -9,8 +9,8 @@ import (
 
 	"google.golang.org/grpc"
 	"fmt"
-	//"github.com/streadway/amqp"
-	//"encoding/json"
+	"github.com/streadway/amqp"
+	"encoding/json"
 	"strconv"
 
 
