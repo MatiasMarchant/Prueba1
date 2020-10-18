@@ -169,6 +169,14 @@ func main() {
 			//paquetesProcesados, entregasProcesadas = procesarEntregas(paquetesProcesados, s.ColaRetail)
 			procesarEntregas(paquetesProcesados, s.ColaRetail)
 						
+
+			fooType := reflect.TypeOf(s)
+			for i := 0; i < fooType.NumMethod(); i++ {
+				method := fooType.Method(i)
+				fmt.Println(method.Name)
+			}
+
+
 			//enviarRabbit(entregasProcesadas)
 		}
 	}()
