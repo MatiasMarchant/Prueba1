@@ -32,6 +32,18 @@ type Entrega struct {
 }
 
 
+type Cola struct {
+	Idpaquete   string
+	Seguimiento string
+	Tipo        string
+	Valor       string
+	Intentos    string
+	Estado      string
+	Origen      string
+	Destino     string
+}
+
+
 
 func procesarEntregas(paquetesProcesados []int, ColaRetail []chat.Cola){ //([]int , []Entrega){
 	
@@ -42,11 +54,15 @@ func procesarEntregas(paquetesProcesados []int, ColaRetail []chat.Cola){ //([]in
 		
 		//fmt.Println(Paquete)	
 
-		slcB, _ := json.Marshal(Paquete)
-		fmt.Println(slcB)
-		fmt.Println(reflect.TypeOf(slcB))
-		fmt.Println(string(slcB))
+		//slcB, _ := json.Marshal(Paquete)
+		//fmt.Println(slcB)
+		//fmt.Println(reflect.TypeOf(slcB))
+		//fmt.Println(string(slcB))
 		
+		var test Cola	
+		json.Unmarshal([]byte(Paquete), &test)
+		fmt.Println(test) 
+
 		//chat.Cola
 
 		//entregaProcesada := &Entrega{Id_paquete:int, Tipo:str, Valor:int, Origen:str, Destino:str, Intentos:int, Fecha_entrega:int}
