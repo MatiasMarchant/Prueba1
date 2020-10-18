@@ -114,6 +114,10 @@ func procesarEntregas(paquetesProcesados []string,
 			var valor int
 			tipo, valor = tipoYvalor(Paquete.Idpaquete, colaRetail, colaPrioritario, colaNormal ) 
 
+			fmt.Println("---------")
+			fmt.Println(valor)
+			fmt.Println("---------")
+
 			ent := &Entrega{Id_paquete: Paquete.Idpaquete, 
 							Tipo: tipo, 
 							Valor: valor, 
