@@ -27,6 +27,7 @@ type Entrega struct {
 	Destino string
 	Intentos int	
 	Fecha_entrega time.Time
+	Estado string
 }
 
 
@@ -41,6 +42,17 @@ type PaqueteEnMarcha struct {
 	Timestamp     time.Time
 }
 
+type Cola struct {
+	Idpaquete   string
+	Seguimiento string
+	Tipo        string
+	Valor       string
+	Intentos    string
+	Estado      string
+	Origen      string
+	Destino     string
+}
+
 func InArr(id string, arr []string) bool {
     for _, i := range arr {
         if i == id {
@@ -50,7 +62,11 @@ func InArr(id string, arr []string) bool {
     return false
 }
 
-func procesarEntregas(paquetesProcesados []string, paqueteEnMarcha []chat.PaqueteEnMarcha) ([]string , []Entrega) {
+func procesarEntregas(paquetesProcesados []string, 
+				   	 paqueteEnMarcha []chat.PaqueteEnMarcha, 
+					 ColaRetail []chat.Cola,
+					 ColaPrioritario []chat.Cola,
+					 ColaNormal []chat.Cola) ([]string , []Entrega) {
 	
 	var entregasProcesadas []Entrega
 
@@ -67,7 +83,8 @@ func procesarEntregas(paquetesProcesados []string, paqueteEnMarcha []chat.Paquet
 							Origen: Paquete.Origen, 
 							Destino: Paquete.Destino,
 							Intentos: IntIntentos,
-							Fecha_entrega: Paquete.Timestamp}		
+							Fecha_entrega: Paquete.Timestamp,
+							Estado: Paquete.Estado}		
 
 			entregasProcesadas = append(entregasProcesadas, *ent)    		
 		}
@@ -159,7 +176,12 @@ func main() {
 		for {
 			time.Sleep(2 * time.Second)
 			
-			paquetesProcesados, entregasProcesadas = procesarEntregas(paquetesProcesados, s.PaquetesEnMarcha)
+			paquetesProcesados, entregasProcesadas = procesarEntregas(paquetesProcesados,
+																	  s.PaquetesEnMarcha,
+																	  s.ColaRetail,
+																	  s.ColaPrioritario,
+																	  s.ColaNormal,
+																	)
 
 			fmt.Println(s.PaquetesEnMarcha)
 			fmt.Println(paquetesProcesados)
