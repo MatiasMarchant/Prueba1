@@ -50,16 +50,15 @@ func IntInArr(a int, arr []int) bool {
     return false
 }
 
-func procesarEntregas(paquetesProcesados []int, paqueteEnMarcha []chat.PaqueteEnMarcha){ //([]int , []Entrega){
+func procesarEntregas(paquetesProcesados []int, paqueteEnMarcha []chat.PaqueteEnMarcha){ ([]int , []Entrega){
 	
 	var entregasProcesadas []Entrega
 
 	for _, Paquete := range paqueteEnMarcha {
 		if ((Paquete.Estado == "Recibido" || Paquete.Estado == "No Recibido" ) && !IntInArr( strconv.Atoi(Paquete.Idpaquete), paquetesProcesados)) {
+			
 			paquetesProcesados = append(paquetesProcesados, strconv.Atoi(Paquete.Idpaquete))
 
-
-			
 			ent := &Entrega{Id_paquete: strconv.Atoi(Paquete.Idpaquete), 
 							Tipo: "Malo, cambiar", 
 							Valor: 0, 
