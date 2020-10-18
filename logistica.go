@@ -11,10 +11,11 @@ import (
 	"fmt"
 	//"github.com/streadway/amqp"
 	"encoding/json"
-
+	
 	//"reflect" //-------------
 )
 
+import chat "chat/chat.go"
 
 type Entrega struct {
 	Id_paquete int
