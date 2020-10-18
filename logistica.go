@@ -45,7 +45,7 @@ func procesarEntregas(paquetesProcesados []int, ColaRetail []chat.Cola){ //([]in
 		slcB, _ := json.Marshal(Paquete)
 		fmt.Println(slcB)
 		fmt.Println(reflect.TypeOf(slcB))
-		fmt.Println(strconv.Itoa(slcB))
+		fmt.Println(string(slcB))
 		
 		//chat.Cola
 
