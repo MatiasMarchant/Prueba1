@@ -11,6 +11,7 @@ import (
 	"fmt"
 	//"github.com/streadway/amqp"
 	//"encoding/json"
+	"strconv"
 
 
 
@@ -25,7 +26,7 @@ type Entrega struct {
 	Origen string
 	Destino string
 	Intentos int	
-	Fecha_entrega int
+	Fecha_entrega time.Time
 }
 
 
@@ -54,16 +55,17 @@ func procesarEntregas(paquetesProcesados []int, paqueteEnMarcha []chat.PaqueteEn
 	var entregasProcesadas []Entrega
 
 	for _, Paquete := range paqueteEnMarcha {
-		if ((Paquete.Estado == "Recibido" || Paquete.Estado == "No Recibido" ) && !IntInArr(Paquete.Idpaquete, paquetesProcesados)) {
-			paquetesProcesados = append(paquetesProcesados, Paquete.Idpaquete)
+		if ((Paquete.Estado == "Recibido" || Paquete.Estado == "No Recibido" ) && !IntInArr( strconv.Atoi(Paquete.Idpaquete), paquetesProcesados)) {
+			paquetesProcesados = append(paquetesProcesados, strconv.Atoi(Paquete.Idpaquete))
 
-			ent := &Entrega{Id_paquete: Paquete.Idpaquete, 
+			ent := &Entrega{Id_paquete: strconv.Atoi(Paquete.Idpaquete), 
 							Tipo: "Malo, cambiar", 
-							Valor: Paquete.Valor, 
+							Valor: 0, 
 							Origen: Paquete.Origen, 
 							Destino: Paquete.Destino,
-							Intentos: Paquete.Intentos, 
-							Fecha_entrega: Paquete.Timestamp}
+							Intentos: strconv.Atoi(Paquete.Intentos), 
+							Fecha_entrega: Paquete.Timestamp
+						}
 
 			entregasProcesadas = append(entregasProcesadas, ent)    		}
 	}	
