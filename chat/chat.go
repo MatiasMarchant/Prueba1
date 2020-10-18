@@ -228,7 +228,7 @@ func (s *Server) ActualizarRegistroPaqueteCamionNormal(ctx context.Context, mess
 	indice := 0
 	contador := 0
 	for _, elem := range s.PaquetesEnMarcha {
-		if message.Idpaquete == elem.idpaquete {
+		if message.Idpaquete == elem.Idpaquete {
 			indice = contador
 		} else {
 			contador++
@@ -495,9 +495,9 @@ func (s *Server) CodigoSeguimiento(ctx context.Context, message *Ordenseguimient
 		Estado: "En bodega",
 	}
 	for _, elem := range s.PaquetesEnMarcha {
-		if message.Nordenseguimiento == elem.idseguimiento {
+		if message.Nordenseguimiento == elem.Idseguimiento {
 			mensajeFinal := Estado{
-				Estado: elem.estado,
+				Estado: elem.Estado,
 			}
 			return &mensajeFinal, nil
 		}
