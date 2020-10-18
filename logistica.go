@@ -19,7 +19,7 @@ import (
 
 type Entrega struct {
 	Id_paquete string
-	//Tipo string
+	Tipo string
 	Valor int
 	//Origen string
 	//Destino string
@@ -62,6 +62,7 @@ func iterarCola(, paquetesProcesados []string, cola []chat.Cola, entregasProcesa
 			paquetesProcesados = append(paquetesProcesados, Paquete.Idpaquete)
 	
 			ent := &Entrega{Id_paquete: Paquete.Idpaquete, 
+							Tipo: Paquete.Tipo, 
 							Valor: IntValor, 
 							Intentos: IntIntentos,
 							Estado: Paquete.Estado}		
