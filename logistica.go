@@ -19,26 +19,16 @@ import (
 
 type Entrega struct {
 	Id_paquete string
-	Tipo string
+	//Tipo string
 	Valor int
-	Origen string
-	Destino string
+	//Origen string
+	//Destino string
 	Intentos int	
-	Fecha_entrega time.Time
+	//Fecha_entrega time.Time
 	Estado string
 }
 
 
-type PaqueteEnMarcha struct {
-	Idpaquete     string
-	Estado        string
-	Idcamion      string
-	Idseguimiento string
-	Intentos      string
-	Origen        string
-	Destino       string
-	Timestamp     time.Time
-}
 
 type Cola struct {
 	Idpaquete   string
@@ -60,76 +50,43 @@ func InArr(id string, arr []string) bool {
     return false
 }
 
-func tipoYvalor (idpaquete string, 
-				 colaRetail []chat.Cola,
-				 colaPrioritario []chat.Cola,
-				 colaNormal []chat.Cola) (string, int){
+func iterarCola(, paquetesProcesados []string, cola []chat.Cola, entregasProcesadas []Entrega) ([]string, []Entrega){
+	
+	for _, Paquete := range cola {
 
-	var tipo string
-	var valor int
-	for _, cola := range colaRetail {
-		if cola.Idpaquete == idpaquete {
-			tipo = cola.Tipo
-			v, _ := strconv.Atoi(cola.Valor )
-			valor = v
-            return tipo, valor
-        }
-	}
-	for _, cola := range colaPrioritario {
-		if cola.Idpaquete == idpaquete {
-			tipo = cola.Tipo
-			v, _ := strconv.Atoi(cola.Valor )
-			valor = v
-            return tipo, valor
-        }
-	}
-	for _, cola := range colaNormal {
-		if cola.Idpaquete == idpaquete {
-			tipo = cola.Tipo
-			v, _ := strconv.Atoi(cola.Valor )
-			valor = v
-            return tipo, valor
-        }
+		if ((Paquete.Estado == "Recibido" || Paquete.Estado == "No Recibido" ) && !InArr( Paquete.Idpaquete, paquetesProcesados)) {
+			
+			IntIntentos, _ := strconv.Atoi(Paquete.Intentos)
+			IntValor, _ := strconv.Atoi(Paquete.Valor)		
+
+			paquetesProcesados = append(paquetesProcesados, Paquete.Idpaquete)
+	
+			ent := &Entrega{Id_paquete: Paquete.Idpaquete, 
+							Valor: IntValor, 
+							Intentos: IntIntentos,
+							Estado: Paquete.Estado}		
+
+			entregasProcesadas = append(entregasProcesadas, *ent)    		
+		}
 	}
 
-	return tipo, valor //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	return paquetesProcesados, entregasProcesadas
+	
 }
 
+
 func procesarEntregas(paquetesProcesados []string, 
-				   	 paqueteEnMarcha []chat.PaqueteEnMarcha, 
 					 colaRetail []chat.Cola,
 					 colaPrioritario []chat.Cola,
 					 colaNormal []chat.Cola) ([]string , []Entrega) {
 	
 	var entregasProcesadas []Entrega
 
-	for _, Paquete := range paqueteEnMarcha {
+	paquetesProcesados, entregasProcesadas = iterarCola(colaRetail, paquetesProcesados, entregasProcesadas) 
+	paquetesProcesados, entregasProcesadas = iterarCola(colaPrioritario, paquetesProcesados, entregasProcesadas) 
+	paquetesProcesados, entregasProcesadas = iterarCola(colaNormal, paquetesProcesados, entregasProcesadas) 
+	
 
-		IntIntentos, _ := strconv.Atoi(Paquete.Intentos)
-		if ((Paquete.Estado == "Recibido" || Paquete.Estado == "No Recibido" ) && !InArr( Paquete.Idpaquete, paquetesProcesados)) {
-			
-			paquetesProcesados = append(paquetesProcesados, Paquete.Idpaquete)
-			
-			var tipo string
-			var valor int
-			tipo, valor = tipoYvalor(Paquete.Idpaquete, colaRetail, colaPrioritario, colaNormal ) 
-
-			fmt.Println("---------")
-			fmt.Println(valor)
-			fmt.Println("---------")
-
-			ent := &Entrega{Id_paquete: Paquete.Idpaquete, 
-							Tipo: tipo, 
-							Valor: valor, 
-							Origen: Paquete.Origen, 
-							Destino: Paquete.Destino,
-							Intentos: IntIntentos,
-							Fecha_entrega: Paquete.Timestamp,
-							Estado: Paquete.Estado}		
-
-			entregasProcesadas = append(entregasProcesadas, *ent)    		
-		}
-	}	
 	return paquetesProcesados, entregasProcesadas
 }
 
@@ -218,7 +175,6 @@ func main() {
 			time.Sleep(2 * time.Second)
 			
 			paquetesProcesados, entregasProcesadas = procesarEntregas(paquetesProcesados,
-																	  s.PaquetesEnMarcha,
 																	  s.ColaRetail,
 																	  s.ColaPrioritario,
 																	  s.ColaNormal,
