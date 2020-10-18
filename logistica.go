@@ -50,7 +50,7 @@ func InArr(id string, arr []string) bool {
     return false
 }
 
-func iterarCola(, paquetesProcesados []string, cola []chat.Cola, entregasProcesadas []Entrega) ([]string, []Entrega){
+func iterarCola(paquetesProcesados []string, cola []chat.Cola, entregasProcesadas []Entrega) ([]string, []Entrega){
 	
 	for _, Paquete := range cola {
 
@@ -83,9 +83,9 @@ func procesarEntregas(paquetesProcesados []string,
 	
 	var entregasProcesadas []Entrega
 
-	paquetesProcesados, entregasProcesadas = iterarCola(colaRetail, paquetesProcesados, entregasProcesadas) 
-	paquetesProcesados, entregasProcesadas = iterarCola(colaPrioritario, paquetesProcesados, entregasProcesadas) 
-	paquetesProcesados, entregasProcesadas = iterarCola(colaNormal, paquetesProcesados, entregasProcesadas) 
+	paquetesProcesados, entregasProcesadas = iterarCola(paquetesProcesados, colaRetail, entregasProcesadas) 
+	paquetesProcesados, entregasProcesadas = iterarCola(paquetesProcesados, colaPrioritario, entregasProcesadas) 
+	paquetesProcesados, entregasProcesadas = iterarCola(paquetesProcesados, colaNormal, entregasProcesadas) 
 	
 
 	return paquetesProcesados, entregasProcesadas
