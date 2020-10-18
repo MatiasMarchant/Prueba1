@@ -58,6 +58,8 @@ func procesarEntregas(paquetesProcesados []int, paqueteEnMarcha []chat.PaqueteEn
 		if ((Paquete.Estado == "Recibido" || Paquete.Estado == "No Recibido" ) && !IntInArr( strconv.Atoi(Paquete.Idpaquete), paquetesProcesados)) {
 			paquetesProcesados = append(paquetesProcesados, strconv.Atoi(Paquete.Idpaquete))
 
+
+			
 			ent := &Entrega{Id_paquete: strconv.Atoi(Paquete.Idpaquete), 
 							Tipo: "Malo, cambiar", 
 							Valor: 0, 
