@@ -54,14 +54,14 @@ func procesarEntregas(paquetesProcesados []int, ColaRetail []chat.Cola){ //([]in
 		
 		//fmt.Println(Paquete)	
 
-		//slcB, _ := json.Marshal(Paquete)
-		//fmt.Println(slcB)
-		//fmt.Println(reflect.TypeOf(slcB))
-		//fmt.Println(string(slcB))
+		slcB, _ := json.Marshal(Paquete)
+		fmt.Println(slcB)
+		fmt.Println(reflect.TypeOf(slcB))
+		fmt.Println(string(slcB))
 		
-		var test Cola	
-		json.Unmarshal([]byte(Paquete), &test)
-		fmt.Println(test) 
+		//var test Cola	
+		//json.Unmarshal([]byte(Paquete), &test)
+		//fmt.Println(test) 
 
 		//chat.Cola
 
