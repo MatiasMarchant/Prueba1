@@ -208,6 +208,8 @@ func main() {
 	var paquetesProcesados []string
 	var entregasProcesadas []Entrega
 
+	fmt.Println("Corriendo el sistema logístico...\n")
+
 	go func() {
 		for {
 			// Cada 2 segundos se consulta son el servidor (s), y se obtiene
