@@ -22,14 +22,14 @@ type Registro struct {
 
 //Cola es
 type Cola struct {
-	idpaquete   string
-	seguimiento string
-	tipo        string
-	valor       string
-	intentos    string
-	estado      string
-	origen      string
-	destino     string
+	Idpaquete   string
+	Seguimiento string
+	Tipo        string
+	Valor       string
+	Intentos    string
+	Estado      string
+	Origen      string
+	Destino     string
 }
 
 //PaqueteEnMarcha es
@@ -132,14 +132,14 @@ func (s *Server) EntregarPaqueteCamionRetail(ctx context.Context, message *IdCam
 		// Preparacion retorno paquete Retail mas caro
 
 		messageColaPaquete := ColaPaquete{
-			Idpaquete:   s.ColaRetail[indicemascaro].idpaquete,
-			Seguimiento: s.ColaRetail[indicemascaro].seguimiento,
-			Tipo:        s.ColaRetail[indicemascaro].tipo,
-			Valor:       s.ColaRetail[indicemascaro].valor,
-			Intentos:    s.ColaRetail[indicemascaro].intentos,
-			Estado:      s.ColaRetail[indicemascaro].estado,
-			Origen:      s.ColaRetail[indicemascaro].origen,
-			Destino:     s.ColaRetail[indicemascaro].destino,
+			Idpaquete:   s.ColaRetail[indicemascaro].Idpaquete,
+			Seguimiento: s.ColaRetail[indicemascaro].Seguimiento,
+			Tipo:        s.ColaRetail[indicemascaro].Tipo,
+			Valor:       s.ColaRetail[indicemascaro].Valor,
+			Intentos:    s.ColaRetail[indicemascaro].Intentos,
+			Estado:      s.ColaRetail[indicemascaro].Estado,
+			Origen:      s.ColaRetail[indicemascaro].Origen,
+			Destino:     s.ColaRetail[indicemascaro].Destino,
 		}
 
 		nuevoPaquete := PaqueteEnMarcha{
@@ -185,14 +185,14 @@ func (s *Server) EntregarPaqueteCamionRetail(ctx context.Context, message *IdCam
 		// Preparacion retorno paquete Prioritario mas caro
 
 		messageColaPaquete := ColaPaquete{
-			Idpaquete:   s.ColaPrioritario[indicemascaro].idpaquete,
-			Seguimiento: s.ColaPrioritario[indicemascaro].seguimiento,
-			Tipo:        s.ColaPrioritario[indicemascaro].tipo,
-			Valor:       s.ColaPrioritario[indicemascaro].valor,
-			Intentos:    s.ColaPrioritario[indicemascaro].intentos,
-			Estado:      s.ColaPrioritario[indicemascaro].estado,
-			Origen:      s.ColaPrioritario[indicemascaro].origen,
-			Destino:     s.ColaPrioritario[indicemascaro].destino,
+			Idpaquete:   s.ColaPrioritario[indicemascaro].Idpaquete,
+			Seguimiento: s.ColaPrioritario[indicemascaro].Seguimiento,
+			Tipo:        s.ColaPrioritario[indicemascaro].Tipo,
+			Valor:       s.ColaPrioritario[indicemascaro].Valor,
+			Intentos:    s.ColaPrioritario[indicemascaro].Intentos,
+			Estado:      s.ColaPrioritario[indicemascaro].Estado,
+			Origen:      s.ColaPrioritario[indicemascaro].Origen,
+			Destino:     s.ColaPrioritario[indicemascaro].Destino,
 		}
 
 		nuevoPaquete := PaqueteEnMarcha{
@@ -298,14 +298,14 @@ func (s *Server) EntregarPaqueteCamionNormal(ctx context.Context, message *IdCam
 		// Preparacion retorno paquete prioritario mas caro
 
 		messageColaPaquete := ColaPaquete{
-			Idpaquete:   s.ColaPrioritario[indicemascaro].idpaquete,
-			Seguimiento: s.ColaPrioritario[indicemascaro].seguimiento,
-			Tipo:        s.ColaPrioritario[indicemascaro].tipo,
-			Valor:       s.ColaPrioritario[indicemascaro].valor,
-			Intentos:    s.ColaPrioritario[indicemascaro].intentos,
-			Estado:      s.ColaPrioritario[indicemascaro].estado,
-			Origen:      s.ColaPrioritario[indicemascaro].origen,
-			Destino:     s.ColaPrioritario[indicemascaro].destino,
+			Idpaquete:   s.ColaPrioritario[indicemascaro].Idpaquete,
+			Seguimiento: s.ColaPrioritario[indicemascaro].Seguimiento,
+			Tipo:        s.ColaPrioritario[indicemascaro].Tipo,
+			Valor:       s.ColaPrioritario[indicemascaro].Valor,
+			Intentos:    s.ColaPrioritario[indicemascaro].Intentos,
+			Estado:      s.ColaPrioritario[indicemascaro].Estado,
+			Origen:      s.ColaPrioritario[indicemascaro].Origen,
+			Destino:     s.ColaPrioritario[indicemascaro].Destino,
 		}
 
 		nuevoPaquete := PaqueteEnMarcha{
@@ -351,14 +351,14 @@ func (s *Server) EntregarPaqueteCamionNormal(ctx context.Context, message *IdCam
 		// Preparacion retorno paquete normal mas caro
 
 		messageColaPaquete := ColaPaquete{
-			Idpaquete:   s.ColaNormal[indicemascaro].idpaquete,
-			Seguimiento: s.ColaNormal[indicemascaro].seguimiento,
-			Tipo:        s.ColaNormal[indicemascaro].tipo,
-			Valor:       s.ColaNormal[indicemascaro].valor,
-			Intentos:    s.ColaNormal[indicemascaro].intentos,
-			Estado:      s.ColaNormal[indicemascaro].estado,
-			Origen:      s.ColaNormal[indicemascaro].origen,
-			Destino:     s.ColaNormal[indicemascaro].destino,
+			Idpaquete:   s.ColaNormal[indicemascaro].Idpaquete,
+			Seguimiento: s.ColaNormal[indicemascaro].Seguimiento,
+			Tipo:        s.ColaNormal[indicemascaro].Tipo,
+			Valor:       s.ColaNormal[indicemascaro].Valor,
+			Intentos:    s.ColaNormal[indicemascaro].Intentos,
+			Estado:      s.ColaNormal[indicemascaro].Estado,
+			Origen:      s.ColaNormal[indicemascaro].Origen,
+			Destino:     s.ColaNormal[indicemascaro].Destino,
 		}
 
 		nuevoPaquete := PaqueteEnMarcha{
@@ -463,14 +463,14 @@ func (s *Server) RecibirOrdenRetail(ctx context.Context, message *Ordenclientere
 	}
 
 	nuevaCola := Cola{
-		idpaquete:   message.Id,
-		seguimiento: "9999",
-		tipo:        "retail",
-		valor:       strconv.Itoa(int(message.Valor)),
-		intentos:    "0",
-		estado:      "En bodega",
-		origen:      message.Tienda,
-		destino:     message.Destino,
+		Idpaquete:   message.Id,
+		Seguimiento: "9999",
+		Tipo:        "retail",
+		Valor:       strconv.Itoa(int(message.Valor)),
+		Intentos:    "0",
+		Estado:      "En bodega",
+		Origen:      message.Tienda,
+		Destino:     message.Destino,
 	}
 
 	// Agregar paquete a una de las tres colas de Server
