@@ -10,7 +10,7 @@ import (
 	"google.golang.org/grpc"
 	"fmt"
 	//"github.com/streadway/amqp"
-	//"encoding/json"
+	"encoding/json"
 
 	//"reflect" //-------------
 )
@@ -27,6 +27,16 @@ type Entrega struct {
 }
 
 
+type Cola struct {
+	idpaquete   string
+	seguimiento string
+	tipo        string
+	valor       string
+	intentos    string
+	estado      string
+	origen      string
+	destino     string
+}
 
 
 
@@ -35,8 +45,14 @@ func procesarEntregas(paquetesProcesados []int, ColaRetail []chat.Cola){ //([]in
 
 	for _, Paquete := range ColaRetail {
 
-		fmt.Println(Paquete[0])
+		
 
+		out, err := json.Marshal(Paquete)
+		if err != nil {
+			panic (err)
+		}
+		fmt.Println(out)	
+		fmt.Println(string(out))
 
 		//entregaProcesada := &Entrega{Id_paquete:int, Tipo:str, Valor:int, Origen:str, Destino:str, Intentos:int, Fecha_entrega:int}
 
