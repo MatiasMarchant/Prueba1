@@ -68,6 +68,7 @@ func tipoYvalor (idpaquete string,
 	var valor int
 	for _, cola := range colaRetail {
 		if cola.Idpaquete == idpaquete {
+			fmt.Println("?")
 			tipo = cola.Tipo
 			v, _ := strconv.Atoi(cola.Valor )
 			valor = v
@@ -76,6 +77,7 @@ func tipoYvalor (idpaquete string,
 	}
 	for _, cola := range colaPrioritario {
 		if cola.Idpaquete == idpaquete {
+			fmt.Println("?")
 			tipo = cola.Tipo
 			v, _ := strconv.Atoi(cola.Valor )
 			valor = v
@@ -84,6 +86,7 @@ func tipoYvalor (idpaquete string,
 	}
 	for _, cola := range colaNormal {
 		if cola.Idpaquete == idpaquete {
+			fmt.Println("?")
 			tipo = cola.Tipo
 			v, _ := strconv.Atoi(cola.Valor )
 			valor = v
