@@ -12,9 +12,10 @@ import (
 	//"github.com/streadway/amqp"
 	//"encoding/json"
 	
-	"reflect" //-------------
+	//"reflect" //-------------
 )
 
+import chat "chat/chat.go"
 
 type Entrega struct {
 	Id_paquete int
@@ -24,18 +25,6 @@ type Entrega struct {
 	Destino string
 	Intentos int	
 	Fecha_entrega int
-}
-
-
-type Cola struct {
-	idpaquete   string
-	seguimiento string
-	tipo        string
-	valor       string
-	intentos    string
-	estado      string
-	origen      string
-	destino     string
 }
 
 
