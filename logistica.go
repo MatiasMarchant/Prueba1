@@ -138,7 +138,7 @@ func main() {
 		for {
 			time.Sleep(2 * time.Second)
 			
-			fmt.Println(paquetesProcesados))
+			fmt.Println(paquetesProcesados)
 			fmt.Println(reflect.TypeOf(s.ColaRetail))
 
 			//paquetesProcesados, entregasProcesadas = procesarEntregas(paquetesProcesados, s.ColaRetail)
