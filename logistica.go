@@ -42,7 +42,7 @@ type Cola struct {
 
 func procesarEntregas(paquetesProcesados []int, ColaRetail []chat.Cola){ //([]int , []Entrega){
 	
-
+	fmt.Println("procesarEntregas")	
 	for _, Paquete := range ColaRetail {
 
 		
