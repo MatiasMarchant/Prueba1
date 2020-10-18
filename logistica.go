@@ -10,9 +10,9 @@ import (
 	"google.golang.org/grpc"
 	"fmt"
 	//"github.com/streadway/amqp"
-	"encoding/json"
+	//"encoding/json"
 	
-	//"reflect" //-------------
+	"reflect" //-------------
 )
 
 
@@ -46,11 +46,11 @@ func procesarEntregas(paquetesProcesados []int, ColaRetail []chat.Cola){ //([]in
 	for _, Paquete := range ColaRetail {
 
 
-		var objmap map[string]interface{}
-		if err := json.Unmarshal(Paquete, &objmap); err != nil {
-			log.Fatal(err)
+		fooType := reflect.TypeOf(Paquete{})
+		for i := 0; i < fooType.NumMethod(); i++ {
+			method := fooType.Method(i)
+			fmt.Println(method.Name)
 		}
-		fmt.Println(objmap[0]["href"]) // to parse out your value
 
 
 		//entregaProcesada := &Entrega{Id_paquete:int, Tipo:str, Valor:int, Origen:str, Destino:str, Intentos:int, Fecha_entrega:int}
