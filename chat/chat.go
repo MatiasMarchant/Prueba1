@@ -34,14 +34,14 @@ type Cola struct {
 
 //PaqueteEnMarcha es
 type PaqueteEnMarcha struct {
-	idpaquete     string
-	estado        string
-	idcamion      string
-	idseguimiento string
-	intentos      string
-	origen        string
-	destino       string
-	timestamp     time.Time
+	Idpaquete     string
+	Estado        string
+	Idcamion      string
+	Idseguimiento string
+	Intentos      string
+	Origen        string
+	Destino       string
+	Timestamp     time.Time
 }
 
 //Server es

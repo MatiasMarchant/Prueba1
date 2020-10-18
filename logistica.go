@@ -11,14 +11,11 @@ import (
 	"fmt"
 	//"github.com/streadway/amqp"
 	//"encoding/json"
-	
-	//"reflect" //-------------
+
 
 
 )
 
-
-//import chat "github.com/MatiasMarchant/Prueba1/tree/master/chat/chat.go"
 
 
 type Entrega struct {
@@ -32,47 +29,48 @@ type Entrega struct {
 }
 
 
-type Cola struct {
-	Idpaquete   string
-	Seguimiento string
-	Tipo        string
-	Valor       string
-	Intentos    string
-	Estado      string
-	Origen      string
-	Destino     string
+
+func IntInArr(a int, arr []int) bool {
+    for _, i := range arr {
+        if i == a {
+            return true
+        }
+    }
+    return false
 }
 
-
-
-func procesarEntregas(paquetesProcesados []int, ColaRetail []chat.Cola){ //([]int , []Entrega){
+func procesarEntregas(paquetesProcesados []int, ColaRetail []chat.PaqueteEnMarcha){ //([]int , []Entrega){
 	
-	fmt.Println(ColaRetail)	
+	//fmt.Println(ColaRetail)	
 	for _, Paquete := range ColaRetail {
+		fmt.Println(Paquete.Id_paquete)	
+	/*	if ((Paquete.Estado == "Recibido" || Paquete.Estado == "No Recibido" ) && !IntInArr(Paquete.Idpaquete, paquetesProcesados)) {
+			paquetesProcesados = append(paquetesProcesados, Paquete.Idpaquete)
 
-		
-		
-		fmt.Println(Paquete.Idpaquete)	
+			ent := &Entrega{Id_paquete: , 
+							Tipo: Paquete.Idpaquete, 
+							Valor: Paquete.Valor, 
+							Origen: Paquete.Origen, 
+							Destino: Paquete.Destino,
+							Intentos: Paquete.Intentos, 
+							Fecha_entrega: Paquete.Timestamp
+							}
 
-		//slcB, _ := json.Marshal(Paquete)
-		//fmt.Println(slcB)
-		//fmt.Println(reflect.TypeOf(slcB))
-		//fmt.Println(string(slcB))
-		
-		//var test Cola	
-		//json.Unmarshal([]byte(Paquete), &test)
-		//fmt.Println(test) 
+    
+		}
 
-		//chat.Cola
+	Idpaquete     string
+	Estado        string
+	Idcamion      string
+	Idseguimiento string
+	Intentos      string
+	Origen        string
+	Destino       string
+	Timestamp     time.Time
+	
 
-		//entregaProcesada := &Entrega{Id_paquete:int, Tipo:str, Valor:int, Origen:str, Destino:str, Intentos:int, Fecha_entrega:int}
-
-		/*for _, idPaquete := range paquetesProcesados {
-			if idPaquete == entregaProcesada.Id_paquete {
-				// Found!
-			}
-		}*/
-
+	return paquetesProcesados, 
+*/
 	}
 
 
@@ -167,7 +165,7 @@ func main() {
 		for {
 			time.Sleep(2 * time.Second)
 			//paquetesProcesados, entregasProcesadas = procesarEntregas(paquetesProcesados, s.ColaRetail)
-			procesarEntregas(paquetesProcesados, s.ColaRetail)
+			procesarEntregas(paquetesProcesados, s.PaqueteEnMarcha)
 						
 
 
