@@ -6,10 +6,11 @@ import (
 	"net"
 	"time"
 	//"chat"
+
 	"google.golang.org/grpc"
 	"fmt"
-	"github.com/streadway/amqp"
-	"encoding/json"
+	//"github.com/streadway/amqp"
+	//"encoding/json"
 
 	"reflect" //-------------
 )
@@ -28,12 +29,12 @@ type Entrega struct {
 
 
 
-func procesarEntregas(paquetesProcesados, ColaRetail){ //([]int , []Entrega){
+//func procesarEntregas(paquetesProcesados []int, ColaRetail ){ //([]int , []Entrega){
 	
 
-	for _, Paquete := range ColaRetail {
-		fmt.Println(entrega)
-		fmt.Println(reflect.TypeOf(entrega))
+//	for _, Paquete := range ColaRetail {
+//		fmt.Println(entrega)
+//		fmt.Println(reflect.TypeOf(entrega))
 
 		//entregaProcesada := &Entrega{Id_paquete:int, Tipo:str, Valor:int, Origen:str, Destino:str, Intentos:int, Fecha_entrega:int}
 
@@ -43,7 +44,7 @@ func procesarEntregas(paquetesProcesados, ColaRetail){ //([]int , []Entrega){
 			}
 		}*/
 
-	}
+//	}
 
 
 
@@ -52,7 +53,7 @@ func procesarEntregas(paquetesProcesados, ColaRetail){ //([]int , []Entrega){
 	//iterar ColaRetail
 	
 	//return paquetesProcesados, entregasProcesadas
-}
+//}
 
 
 /*func enviarRabbit(entregasProcesadas []Entrega) {
@@ -136,8 +137,12 @@ func main() {
 	go func() {
 		for {
 			time.Sleep(2 * time.Second)
+			
+			fmt.Println(paquetesProcesados))
+			fmt.Println(reflect.TypeOf(s.ColaRetail))
+
 			//paquetesProcesados, entregasProcesadas = procesarEntregas(paquetesProcesados, s.ColaRetail)
-			procesarEntregas(paquetesProcesados, s.ColaRetail)
+			//procesarEntregas(paquetesProcesados, s.ColaRetail)
 			//enviarRabbit(entregasProcesadas)
 		}
 	}()
