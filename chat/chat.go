@@ -10,14 +10,14 @@ import (
 
 //Registro es
 type Registro struct {
-	timestamp   time.Time
-	idpaquete   string
-	tipo        string
-	nombre      string
-	valor       string
-	origen      string
-	destino     string
-	seguimiento string
+	Timestamp   time.Time
+	Idpaquete   string
+	Tipo        string
+	Nombre      string
+	Valor       string
+	Origen      string
+	Destino     string
+	Seguimiento string
 }
 
 //Cola es
@@ -398,14 +398,14 @@ func (s *Server) RecibirOrdenPymes(ctx context.Context, message *Ordenclientepym
 		tipo = "normal"
 	}
 	nuevaEntrada := Registro{
-		timestamp:   time.Now(),
-		idpaquete:   message.Id,
-		tipo:        tipo,
-		nombre:      message.Producto,
-		valor:       strconv.Itoa(int(message.Valor)),
-		origen:      message.Tienda,
-		destino:     message.Destino,
-		seguimiento: s.Seguimiento,
+		Timestamp:   time.Now(),
+		Idpaquete:   message.Id,
+		Tipo:        tipo,
+		Nombre:      message.Producto,
+		Valor:       strconv.Itoa(int(message.Valor)),
+		Origen:      message.Tienda,
+		Destino:     message.Destino,
+		Seguimiento: s.Seguimiento,
 	}
 
 	nuevaCola := Cola{
@@ -452,14 +452,14 @@ func (s *Server) RecibirOrdenRetail(ctx context.Context, message *Ordenclientere
 	}
 
 	nuevaEntrada := Registro{
-		timestamp:   time.Now(),
-		idpaquete:   message.Id,
-		tipo:        "retail",
-		nombre:      message.Producto,
-		valor:       strconv.Itoa(int(message.Valor)),
-		origen:      message.Tienda,
-		destino:     message.Destino,
-		seguimiento: "9999",
+		Timestamp:   time.Now(),
+		Idpaquete:   message.Id,
+		Tipo:        "retail",
+		Nombre:      message.Producto,
+		Valor:       strconv.Itoa(int(message.Valor)),
+		Origen:      message.Tienda,
+		Destino:     message.Destino,
+		Seguimiento: "9999",
 	}
 
 	nuevaCola := Cola{
