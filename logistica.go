@@ -41,9 +41,9 @@ type PaqueteEnMarcha struct {
 	Timestamp     time.Time
 }
 
-func IntInArr(a int, arr []int) bool {
+func InArr(id string, arr []string) bool {
     for _, i := range arr {
-        if i == a {
+        if i == id {
             return true
         }
     }
@@ -57,11 +57,11 @@ func procesarEntregas(paquetesProcesados []string, paqueteEnMarcha []chat.Paquet
 	for _, Paquete := range paqueteEnMarcha {
 
 		IntIntentos, _ := strconv.Atoi(Paquete.Intentos)
-		if ((Paquete.Estado == "Recibido" || Paquete.Estado == "No Recibido" ) && !IntInArr( Paquete.Id_paquete, paquetesProcesados)) {
+		if ((Paquete.Estado == "Recibido" || Paquete.Estado == "No Recibido" ) && !InArr( Paquete.Idpaquete, paquetesProcesados)) {
 			
 			paquetesProcesados = append(paquetesProcesados, IntIdpaquete)
 
-			ent := &Entrega{Id_paquete: Paquete.Id_paquete, 
+			ent := &Entrega{Id_paquete: Paquete.Idpaquete, 
 							Tipo: "Malo, cambiar", 
 							Valor: 0, 
 							Origen: Paquete.Origen, 
@@ -152,7 +152,7 @@ func main() {
 
 	chat.RegisterChatServiceServer(grpcServer, &s)
 
-	var paquetesProcesados []int
+	var paquetesProcesados []string
 	var entregasProcesadas []Entrega
 
 	go func() {
