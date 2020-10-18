@@ -55,19 +55,21 @@ func procesarEntregas(paquetesProcesados []int, paqueteEnMarcha []chat.PaqueteEn
 	var entregasProcesadas []Entrega
 
 	for _, Paquete := range paqueteEnMarcha {
-		if ((Paquete.Estado == "Recibido" || Paquete.Estado == "No Recibido" ) && !IntInArr( strconv.Atoi(Paquete.Idpaquete), paquetesProcesados)) {
+		IntIdpaquete, _ := strconv.Atoi(Paquete.Idpaquete)
+		IntIntentos, _ := strconv.Atoi(Paquete.Intentos)
+		if ((Paquete.Estado == "Recibido" || Paquete.Estado == "No Recibido" ) && !IntInArr( IntIdpaquete, paquetesProcesados)) {
 			
-			paquetesProcesados = append(paquetesProcesados, strconv.Atoi(Paquete.Idpaquete))
+			paquetesProcesados = append(paquetesProcesados, IntIdpaquete)
 
-			ent := &Entrega{Id_paquete: strconv.Atoi(Paquete.Idpaquete), 
+			ent := &Entrega{Id_paquete: IntIdpaquete, 
 							Tipo: "Malo, cambiar", 
 							Valor: 0, 
 							Origen: Paquete.Origen, 
 							Destino: Paquete.Destino,
-							Intentos: strconv.Atoi(Paquete.Intentos),
+							Intentos: IntIntentos,
 							Fecha_entrega: Paquete.Timestamp}		
 
-			entregasProcesadas = append(entregasProcesadas, ent)    		
+			entregasProcesadas = append(entregasProcesadas, &ent)    		
 		}
 	}	
 	return paquetesProcesados, entregasProcesadas
@@ -156,7 +158,7 @@ func main() {
 		for {
 			time.Sleep(2 * time.Second)
 			
-			paquetesProcesados, entregasProcesadas = procesarEntregas(paquetesProcesados, s.ColaRetail)
+			paquetesProcesados, entregasProcesadas = procesarEntregas(paquetesProcesados, s.PaquetesEnMarcha)
 
 			fmt.Println(paquetesProcesados)
 			fmt.Println(entregasProcesadas)
