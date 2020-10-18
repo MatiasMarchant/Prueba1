@@ -1,7 +1,7 @@
 package main
 
 import (
-	//"github.com/MatiasMarchant/Prueba1/tree/master/chat"
+	"github.com/MatiasMarchant/Prueba1/tree/master/chat"
 	"log"
 	"net"
 	"time"
@@ -13,11 +13,11 @@ import (
 	"encoding/json"
 	
 	//"reflect" //-------------
-	"github.com/MatiasMarchant/Prueba1/tree/master/chat"
+
 )
 
 
-import chat "github.com/MatiasMarchant/Prueba1/tree/master/chat/chat.go"
+//import chat "github.com/MatiasMarchant/Prueba1/tree/master/chat/chat.go"
 
 
 type Entrega struct {
