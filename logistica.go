@@ -20,7 +20,7 @@ import (
 
 
 type Entrega struct {
-	Id_paquete int
+	Id_paquete string
 	Tipo string
 	Valor int
 	Origen string
@@ -50,18 +50,18 @@ func IntInArr(a int, arr []int) bool {
     return false
 }
 
-func procesarEntregas(paquetesProcesados []int, paqueteEnMarcha []chat.PaqueteEnMarcha) ([]int , []Entrega) {
+func procesarEntregas(paquetesProcesados []string, paqueteEnMarcha []chat.PaqueteEnMarcha) ([]string , []Entrega) {
 	
 	var entregasProcesadas []Entrega
 
 	for _, Paquete := range paqueteEnMarcha {
-		IntIdpaquete, _ := strconv.Atoi(Paquete.Idpaquete)
+
 		IntIntentos, _ := strconv.Atoi(Paquete.Intentos)
-		if ((Paquete.Estado == "Recibido" || Paquete.Estado == "No Recibido" ) && !IntInArr( IntIdpaquete, paquetesProcesados)) {
+		if ((Paquete.Estado == "Recibido" || Paquete.Estado == "No Recibido" ) && !IntInArr( Paquete.Id_paquete, paquetesProcesados)) {
 			
 			paquetesProcesados = append(paquetesProcesados, IntIdpaquete)
 
-			ent := &Entrega{Id_paquete: IntIdpaquete, 
+			ent := &Entrega{Id_paquete: Paquete.Id_paquete, 
 							Tipo: "Malo, cambiar", 
 							Valor: 0, 
 							Origen: Paquete.Origen, 
