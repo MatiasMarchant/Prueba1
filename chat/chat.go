@@ -286,7 +286,7 @@ func (s *Server) EntregarPaqueteCamionNormal(ctx context.Context, message *IdCam
 		//fmt.Println("Entre a ColaPrioritario")
 		// Busqueda paquete mas caro
 		for _, elem := range s.ColaPrioritario {
-			value, _ := strconv.Atoi(elem.valor)
+			value, _ := strconv.Atoi(elem.Valor)
 			// Buscar elemento más caro
 			if value > elemmascaro {
 				indicemascaro = iterador
@@ -309,13 +309,13 @@ func (s *Server) EntregarPaqueteCamionNormal(ctx context.Context, message *IdCam
 		}
 
 		nuevoPaquete := PaqueteEnMarcha{
-			idpaquete:     s.ColaPrioritario[indicemascaro].idpaquete,
-			estado:        s.ColaPrioritario[indicemascaro].estado,
+			idpaquete:     s.ColaPrioritario[indicemascaro].Idpaquete,
+			estado:        s.ColaPrioritario[indicemascaro].Estado,
 			idcamion:      message.Idcamion,
-			idseguimiento: s.ColaPrioritario[indicemascaro].seguimiento,
-			intentos:      s.ColaPrioritario[indicemascaro].intentos,
-			origen:        s.ColaPrioritario[indicemascaro].origen,
-			destino:       s.ColaPrioritario[indicemascaro].destino,
+			idseguimiento: s.ColaPrioritario[indicemascaro].Seguimiento,
+			intentos:      s.ColaPrioritario[indicemascaro].Intentos,
+			origen:        s.ColaPrioritario[indicemascaro].Origen,
+			destino:       s.ColaPrioritario[indicemascaro].Destino,
 			timestamp:     time.Time{},
 		}
 
@@ -339,7 +339,7 @@ func (s *Server) EntregarPaqueteCamionNormal(ctx context.Context, message *IdCam
 	if len(s.ColaNormal) >= 1 {
 		// Busqueda paquete mas caro
 		for _, elem := range s.ColaNormal {
-			value, _ := strconv.Atoi(elem.valor)
+			value, _ := strconv.Atoi(elem.Valor)
 			// Buscar elemento más caro
 			if value > elemmascaro {
 				indicemascaro = iterador
@@ -362,13 +362,13 @@ func (s *Server) EntregarPaqueteCamionNormal(ctx context.Context, message *IdCam
 		}
 
 		nuevoPaquete := PaqueteEnMarcha{
-			idpaquete:     s.ColaNormal[indicemascaro].idpaquete,
-			estado:        s.ColaNormal[indicemascaro].estado,
+			idpaquete:     s.ColaNormal[indicemascaro].Idpaquete,
+			estado:        s.ColaNormal[indicemascaro].Estado,
 			idcamion:      message.Idcamion,
-			idseguimiento: s.ColaNormal[indicemascaro].seguimiento,
-			intentos:      s.ColaNormal[indicemascaro].intentos,
-			origen:        s.ColaNormal[indicemascaro].origen,
-			destino:       s.ColaNormal[indicemascaro].destino,
+			idseguimiento: s.ColaNormal[indicemascaro].Seguimiento,
+			intentos:      s.ColaNormal[indicemascaro].Intentos,
+			origen:        s.ColaNormal[indicemascaro].Origen,
+			destino:       s.ColaNormal[indicemascaro].Destino,
 			timestamp:     time.Time{},
 		}
 
