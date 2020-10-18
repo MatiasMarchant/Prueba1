@@ -10,9 +10,9 @@ import (
 	"google.golang.org/grpc"
 	"fmt"
 	//"github.com/streadway/amqp"
-	"encoding/json"
+	//"encoding/json"
 	
-	"reflect" //-------------
+	//"reflect" //-------------
 
 
 )
@@ -52,7 +52,7 @@ func procesarEntregas(paquetesProcesados []int, ColaRetail []chat.Cola){ //([]in
 
 		
 		
-		fmt.Println(Paquete.idpaquete)	
+		fmt.Println(Paquete.Idpaquete)	
 
 		//slcB, _ := json.Marshal(Paquete)
 		//fmt.Println(slcB)
