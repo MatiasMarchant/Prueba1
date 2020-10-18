@@ -45,9 +45,14 @@ func procesarEntregas(paquetesProcesados []int, ColaRetail []chat.Cola){ //([]in
 	fmt.Println(ColaRetail)	
 	for _, Paquete := range ColaRetail {
 
-		for _, i := range Paquete {
-			fmt.Println(i)	
-		}
+
+		var test map[string]interface{}
+
+		err := json.Unmarshal([]byte(Paquete), &test)
+		fmt.Println(err)
+
+		fmt.Printf("%#v\n", test)
+
 
 		//entregaProcesada := &Entrega{Id_paquete:int, Tipo:str, Valor:int, Origen:str, Destino:str, Intentos:int, Fecha_entrega:int}
 
