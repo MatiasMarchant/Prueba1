@@ -28,7 +28,7 @@ type Entrega struct {
 
 
 type Cola struct {
-	idpaquete   string
+	Idpaquete   string
 	seguimiento string
 	tipo        string
 	valor       string
@@ -45,7 +45,7 @@ func procesarEntregas(paquetesProcesados []int, ColaRetail []chat.Cola){ //([]in
 
 	for _, Paquete := range ColaRetail {
 
-		fmt.Println(Paquete.idpaquete)
+		fmt.Println(Paquete.Idpaquete)
 
 
 		//entregaProcesada := &Entrega{Id_paquete:int, Tipo:str, Valor:int, Origen:str, Destino:str, Intentos:int, Fecha_entrega:int}
