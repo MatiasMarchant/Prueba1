@@ -17,7 +17,7 @@ import (
 )
 
 
-import chat "github.com/MatiasMarchant/Prueba1/tree/centos4/chat"
+import chat "github.com/MatiasMarchant/Prueba1/tree/centos4/chat/chat.go"
 
 
 type Entrega struct {
