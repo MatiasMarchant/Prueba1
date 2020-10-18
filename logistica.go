@@ -36,15 +36,16 @@ type PaqueteEnMarcha struct {
 	Timestamp     time.Time
 }
 
+
 type Registro struct {
-	timestamp   time.Time
-	idpaquete   string
-	tipo        string
-	nombre      string
-	valor       string
-	origen      string
-	destino     string
-	seguimiento string
+	Timestamp   time.Time
+	Idpaquete   string
+	Tipo        string
+	Nombre      string
+	Valor       string
+	Origen      string
+	Destino     string
+	Seguimiento string
 }
 
 
@@ -58,15 +59,15 @@ func InArr(id string, arr []string) bool {
 }
 
 func tipoYvalor (idpaquete string, 
-				 colaRetail []chat.Registro,
+	listaRegistro []chat.Registro,
 				) (string, int){
 
 	var tipo string
 	var valor int
-	for _, cola := range colaRetail {
-		if cola.Idpaquete == idpaquete {
-			tipo = cola.Tipo
-			v, _ := strconv.Atoi(cola.Valor )
+	for _, registro := range listaRegistro {
+		if registro.Idpaquete == idpaquete {
+			tipo = registro.Tipo
+			v, _ := strconv.Atoi(registro.Valor )
 			valor = v
             return tipo, valor
         }
