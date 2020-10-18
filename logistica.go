@@ -15,7 +15,6 @@ import (
 	//"reflect" //-------------
 )
 
-import chat "Prueba1/chat/chat.go"
 
 type Entrega struct {
 	Id_paquete int
@@ -47,12 +46,8 @@ func procesarEntregas(paquetesProcesados []int, ColaRetail []chat.Cola){ //([]in
 	for _, Paquete := range ColaRetail {
 
 
-		var test map[string]interface{}
-
-		err := json.Unmarshal([]byte(Paquete), &test)
-		fmt.Println(err)
-
-		fmt.Printf("%#v\n", test)
+		//fmt.Println(ColaRetail)	0
+		fmt.Printf(string(Paquete))
 
 
 		//entregaProcesada := &Entrega{Id_paquete:int, Tipo:str, Valor:int, Origen:str, Destino:str, Intentos:int, Fecha_entrega:int}
