@@ -29,6 +29,16 @@ type Entrega struct {
 }
 
 
+type PaqueteEnMarcha struct {
+	Idpaquete     string
+	Estado        string
+	Idcamion      string
+	Idseguimiento string
+	Intentos      string
+	Origen        string
+	Destino       string
+	Timestamp     time.Time
+}
 
 func IntInArr(a int, arr []int) bool {
     for _, i := range arr {
