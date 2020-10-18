@@ -109,7 +109,9 @@ func procesarEntregas(paquetesProcesados []string,
 		if ((Paquete.Estado == "Recibido" || Paquete.Estado == "No Recibido" ) && !InArr( Paquete.Idpaquete, paquetesProcesados)) {
 			
 			paquetesProcesados = append(paquetesProcesados, Paquete.Idpaquete)
-
+			
+			var tipo string
+			var valor int
 			tipo, valor = tipoYvalor(Paquete.Idpaquete, colaRetail, colaPrioritario, colaNormal ) 
 
 			ent := &Entrega{Id_paquete: Paquete.Idpaquete, 
