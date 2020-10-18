@@ -92,7 +92,7 @@ func tipoYvalor (idpaquete string,
         }
 	}
 
-	return tipo, valor
+	return tipo, valor //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 }
 
 func procesarEntregas(paquetesProcesados []string, 
