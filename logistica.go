@@ -46,13 +46,9 @@ func procesarEntregas(paquetesProcesados []int, ColaRetail []chat.Cola){ //([]in
 	for _, Paquete := range ColaRetail {
 
 		
-		fooType := reflect.TypeOf(Paquete)
-		fmt.Println(fooType.NumMethod())	
-		for i := 0; i < fooType.NumMethod(); i++ {
-			method := fooType.Method(i)
-			fmt.Println(method.Name)
-		}
-
+		
+		fmt.Println(len(Paquete))	
+		
 
 		//entregaProcesada := &Entrega{Id_paquete:int, Tipo:str, Valor:int, Origen:str, Destino:str, Intentos:int, Fecha_entrega:int}
 
