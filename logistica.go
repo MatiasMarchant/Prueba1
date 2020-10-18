@@ -13,11 +13,11 @@ import (
 	"encoding/json"
 	
 	//"reflect" //-------------
-	"github.com/MatiasMarchant/Prueba1/tree/centos4/chat"
+	"github.com/MatiasMarchant/Prueba1/tree/master/chat"
 )
 
 
-import chat "github.com/MatiasMarchant/Prueba1/tree/centos4/chat/chat.go"
+import chat "github.com/MatiasMarchant/Prueba1/tree/master/chat/chat.go"
 
 
 type Entrega struct {
