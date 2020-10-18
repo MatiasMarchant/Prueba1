@@ -16,7 +16,9 @@ import (
 
 )
 
-
+//----------------------------------------------------------------
+// Struct Entrega, contiene la información que se envía a Finanzas
+// mediante RabbitMQ
 type Entrega struct {
 	Id_paquete string
 	Tipo string
@@ -25,6 +27,9 @@ type Entrega struct {
 	Estado string
 }
 
+//----------------------------------------------------------------
+// Struct que contiene la información de chat.Server con los 
+// paquetes en marcha.
 type PaqueteEnMarcha struct {
 	Idpaquete     string
 	Estado        string
@@ -36,7 +41,8 @@ type PaqueteEnMarcha struct {
 	Timestamp     time.Time
 }
 
-
+//----------------------------------------------------------------
+// Struct que contiene el registro de información de chat.Server
 type Registro struct {
 	Timestamp   time.Time
 	Idpaquete   string
@@ -48,7 +54,8 @@ type Registro struct {
 	Seguimiento string
 }
 
-
+//----------------------------------------------------------------
+// Retorna true si se encuentra el string id en el arreglo arr
 func InArr(id string, arr []string) bool {
     for _, i := range arr {
         if i == id {
@@ -58,8 +65,12 @@ func InArr(id string, arr []string) bool {
     return false
 }
 
+
+//----------------------------------------------------------------
+// Recibe un idpaquete y la listaRegistro, retorna el tipo y el valor
+// del paquete con el id idpaquete.
 func tipoYvalor (idpaquete string, 
-	listaRegistro []chat.Registro,
+				 listaRegistro []chat.Registro,
 				) (string, int){
 
 	var tipo string
@@ -76,6 +87,12 @@ func tipoYvalor (idpaquete string,
 	return tipo, valor
 }
 
+
+//----------------------------------------------------------------
+// Recibe los paquetesProcesados, paqueteEnMarcha y la listaRegistro. Se filtra paqueteEnMarcha
+// mediante si el estado es Recibido o No recibido y si no se ha procesado previamente, es decir,
+// es primera vez que se lee. Luego se procesa el paquete y se obtiene tipo y valor de listaRegistro.
+// Un paquete es procesado al crear un struct Entrega con esos datos.
 func procesarEntregas(paquetesProcesados []string, 
 				   	 paqueteEnMarcha []chat.PaqueteEnMarcha, 
 					 listaRegistro []chat.Registro) ([]string , []Entrega) {
@@ -106,7 +123,11 @@ func procesarEntregas(paquetesProcesados []string,
 }
 
 
+
+//----------------------------------------------------------------
+// Recibe las entregasProcesadas para ser enviadas a Finanzas mediante RabbitMQ
 func enviarRabbit(entregasProcesadas []Entrega) {
+	// Iniciar conexion con Finanzas
 	conn, err := amqp.Dial("amqp://mqadmin:mqadminpassword@10.6.40.180:5672/")
 	if err != nil {
 		fmt.Println("Falla inicializando conección")
@@ -134,8 +155,9 @@ func enviarRabbit(entregasProcesadas []Entrega) {
 	}
 
 	
+	// Se itera para enviar cada entrega
 	for _, entrega := range entregasProcesadas  {
-
+		// Se pasa a Json la entrega, para ser enviada
 		js, err := json.Marshal(entrega)
 		if err != nil {
 			fmt.Println(err)
@@ -159,7 +181,10 @@ func enviarRabbit(entregasProcesadas []Entrega) {
 	}
 }
 
+
+//----------------------------------------------------------------
 func main() {
+	// Conexion gRPC
 	lis, err := net.Listen("tcp", ":9000")
 	if err != nil {
 		log.Fatalf("Falle al escuchar puerto 9000: %v", err)
@@ -171,13 +196,11 @@ func main() {
 	}
 
 	var listaRegistro []chat.Registro
-	s := chat.Server{
-		//chat.listaRegistro: listaRegistro,
-		//seguimiento:        "0",
-	}
+	s := chat.Server{}
 	s.ListaRegistro = listaRegistro
 	s.Seguimiento = "0"
 
+	// Servidor gRPC
 	grpcServer := grpc.NewServer()
 
 	chat.RegisterChatServiceServer(grpcServer, &s)
@@ -187,6 +210,8 @@ func main() {
 
 	go func() {
 		for {
+			// Cada 2 segundos se consulta son el servidor (s), y se obtiene
+			// PaquetesEnMarcha y ListaRegistro, para ser procesados.
 			time.Sleep(2 * time.Second)
 			
 			paquetesProcesados, entregasProcesadas = procesarEntregas(paquetesProcesados,
@@ -194,9 +219,10 @@ func main() {
 																	  s.ListaRegistro)
 
 			fmt.Println(s.PaquetesEnMarcha) //Borrar................
-			fmt.Println(s.ListaRegistro)
+			fmt.Println(s.ListaRegistro) //Borrar................
 			fmt.Println("____________") //Borrar................
 
+			// Se envía a Finanzas las entregas procesadas
 			enviarRabbit(entregasProcesadas)
 		}
 	}()
