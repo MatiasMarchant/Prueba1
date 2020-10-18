@@ -53,7 +53,7 @@ func procesarEntregas(paquetesProcesados []int, ColaRetail []chat.PaqueteEnMarch
 	
 	//fmt.Println(ColaRetail)	
 	for _, Paquete := range ColaRetail {
-		fmt.Println(Paquete.Id_paquete)	
+		fmt.Println(Paquete.Idpaquete)	
 	/*	if ((Paquete.Estado == "Recibido" || Paquete.Estado == "No Recibido" ) && !IntInArr(Paquete.Idpaquete, paquetesProcesados)) {
 			paquetesProcesados = append(paquetesProcesados, Paquete.Idpaquete)
 
@@ -175,7 +175,7 @@ func main() {
 		for {
 			time.Sleep(2 * time.Second)
 			//paquetesProcesados, entregasProcesadas = procesarEntregas(paquetesProcesados, s.ColaRetail)
-			procesarEntregas(paquetesProcesados, s.PaqueteEnMarcha)
+			procesarEntregas(paquetesProcesados, s.PaquetesEnMarcha)
 						
 
 
