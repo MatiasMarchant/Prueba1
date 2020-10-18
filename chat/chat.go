@@ -409,14 +409,14 @@ func (s *Server) RecibirOrdenPymes(ctx context.Context, message *Ordenclientepym
 	}
 
 	nuevaCola := Cola{
-		idpaquete:   message.Id,
-		seguimiento: s.Seguimiento,
-		tipo:        tipo,
-		valor:       strconv.Itoa(int(message.Valor)),
-		intentos:    "0",
-		estado:      "En bodega",
-		origen:      message.Tienda,
-		destino:     message.Destino,
+		Idpaquete:   message.Id,
+		Seguimiento: s.Seguimiento,
+		Tipo:        tipo,
+		Valor:       strconv.Itoa(int(message.Valor)),
+		Intentos:    "0",
+		Estado:      "En bodega",
+		Origen:      message.Tienda,
+		Destino:     message.Destino,
 	}
 	// Agregar paquete a una de las tres colas de Server
 	if tipo == "prioritario" {
