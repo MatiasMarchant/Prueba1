@@ -103,9 +103,8 @@ func enviarRabbit(entregasProcesadas []Entrega) {
 		fmt.Println(err)
 	}
 
-	//ent := &Entrega{Id_paquete:ranId, Tipo:tipos[randT], Valor:ranV, Origen:"tienda-A", Destino:"casa-A", Intentos:randI, Fecha_entrega:0}
 	
-	for _, entrega := entregasProcesadas  {
+	for _, entrega := range entregasProcesadas  {
 
 		js, err := json.Marshal(entrega)
 		if err != nil {
@@ -127,6 +126,7 @@ func enviarRabbit(entregasProcesadas []Entrega) {
 		if err != nil {
 			fmt.Println(err)
 		}
+	}
 }
 
 func main() {
