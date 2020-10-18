@@ -73,7 +73,6 @@ func tipoYvalor (idpaquete string,
         }
 	}
 
-
 	return tipo, valor
 }
 
@@ -93,10 +92,6 @@ func procesarEntregas(paquetesProcesados []string,
 			var tipo string
 			var valor int
 			tipo, valor = tipoYvalor(Paquete.Idpaquete, listaRegistro) 
-
-			fmt.Println("---------")
-			fmt.Println(valor)
-			fmt.Println("---------")
 
 			ent := &Entrega{Id_paquete: Paquete.Idpaquete, 
 							Tipo: tipo, 
@@ -200,12 +195,7 @@ func main() {
 
 			fmt.Println(s.PaquetesEnMarcha) //Borrar................
 			fmt.Println(s.ListaRegistro)
-	
-			//fmt.Println(paquetesProcesados) //Borrar................
-			//fmt.Println(entregasProcesadas) //Borrar................
 			fmt.Println("____________") //Borrar................
-					
-
 
 			enviarRabbit(entregasProcesadas)
 		}
