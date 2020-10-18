@@ -27,6 +27,17 @@ type Entrega struct {
 }
 
 
+type Cola struct {
+	idpaquete   string
+	seguimiento string
+	tipo        string
+	valor       string
+	intentos    string
+	estado      string
+	origen      string
+	destino     string
+}
+
 
 
 func procesarEntregas(paquetesProcesados []int, ColaRetail []chat.Cola){ //([]int , []Entrega){
