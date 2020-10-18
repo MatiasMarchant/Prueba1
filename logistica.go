@@ -65,9 +65,10 @@ func procesarEntregas(paquetesProcesados []int, paqueteEnMarcha []chat.PaqueteEn
 							Destino: Paquete.Destino,
 							Intentos: strconv.Atoi(Paquete.Intentos), 
 							Fecha_entrega: Paquete.Timestamp
-						}
+						}				
 
-			entregasProcesadas = append(entregasProcesadas, ent)    		}
+			entregasProcesadas = append(entregasProcesadas, ent)    		
+		}
 	}	
 	return paquetesProcesados, entregasProcesadas
 }
