@@ -69,7 +69,7 @@ func procesarEntregas(paquetesProcesados []int, paqueteEnMarcha []chat.PaqueteEn
 							Intentos: IntIntentos,
 							Fecha_entrega: Paquete.Timestamp}		
 
-			entregasProcesadas = append(entregasProcesadas, &ent)    		
+			entregasProcesadas = append(entregasProcesadas, *ent)    		
 		}
 	}	
 	return paquetesProcesados, entregasProcesadas
@@ -153,6 +153,7 @@ func main() {
 	chat.RegisterChatServiceServer(grpcServer, &s)
 
 	var paquetesProcesados []int
+	var entregasProcesadas []Entrega
 
 	go func() {
 		for {
