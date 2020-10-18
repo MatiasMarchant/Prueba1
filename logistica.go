@@ -29,12 +29,12 @@ type Entrega struct {
 
 
 
-//func procesarEntregas(paquetesProcesados []int, ColaRetail ){ //([]int , []Entrega){
+func procesarEntregas(paquetesProcesados []int, ColaRetail []chat.Cola){ //([]int , []Entrega){
 	
 
-//	for _, Paquete := range ColaRetail {
-//		fmt.Println(entrega)
-//		fmt.Println(reflect.TypeOf(entrega))
+	for _, Paquete := range ColaRetail {
+		fmt.Println(entrega)
+		fmt.Println(reflect.TypeOf(entrega))
 
 		//entregaProcesada := &Entrega{Id_paquete:int, Tipo:str, Valor:int, Origen:str, Destino:str, Intentos:int, Fecha_entrega:int}
 
@@ -44,7 +44,7 @@ type Entrega struct {
 			}
 		}*/
 
-//	}
+	}
 
 
 
@@ -53,7 +53,7 @@ type Entrega struct {
 	//iterar ColaRetail
 	
 	//return paquetesProcesados, entregasProcesadas
-//}
+}
 
 
 /*func enviarRabbit(entregasProcesadas []Entrega) {
@@ -137,12 +137,8 @@ func main() {
 	go func() {
 		for {
 			time.Sleep(2 * time.Second)
-			
-			fmt.Println(paquetesProcesados)
-			fmt.Println(reflect.TypeOf(s.ColaRetail))
-
 			//paquetesProcesados, entregasProcesadas = procesarEntregas(paquetesProcesados, s.ColaRetail)
-			//procesarEntregas(paquetesProcesados, s.ColaRetail)
+			procesarEntregas(paquetesProcesados, s.ColaRetail)
 			//enviarRabbit(entregasProcesadas)
 		}
 	}()
