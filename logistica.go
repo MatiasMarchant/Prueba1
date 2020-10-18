@@ -33,8 +33,9 @@ func procesarEntregas(paquetesProcesados []int, ColaRetail []chat.Cola){ //([]in
 	
 
 	for _, Paquete := range ColaRetail {
-		fmt.Println(Paquete)
-		fmt.Println(reflect.TypeOf(Paquete))
+
+		fmt.Println(Paquete.idpaquete)
+
 
 		//entregaProcesada := &Entrega{Id_paquete:int, Tipo:str, Valor:int, Origen:str, Destino:str, Intentos:int, Fecha_entrega:int}
 
@@ -136,9 +137,8 @@ func main() {
 
 	go func() {
 		for {
-			time.Sleep(10 * time.Second)
+			time.Sleep(2 * time.Second)
 			//paquetesProcesados, entregasProcesadas = procesarEntregas(paquetesProcesados, s.ColaRetail)
-			fmt.Println(s.ColaRetail)
 			procesarEntregas(paquetesProcesados, s.ColaRetail)
 						
 			//enviarRabbit(entregasProcesadas)
