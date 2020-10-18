@@ -53,6 +53,7 @@ func InArr(id string, arr []string) bool {
 func iterarCola(paquetesProcesados []string, cola []chat.Cola, entregasProcesadas []Entrega) ([]string, []Entrega){
 	
 	for _, Paquete := range cola {
+		fmt.Println(Paquete.Estado) 
 
 		if ((Paquete.Estado == "Recibido" || Paquete.Estado == "No Recibido" ) && !InArr( Paquete.Idpaquete, paquetesProcesados)) {
 			
