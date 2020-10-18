@@ -14,9 +14,7 @@ import (
 	"strconv"
 
 
-
 )
-
 
 
 type Entrega struct {
@@ -62,11 +60,43 @@ func InArr(id string, arr []string) bool {
     return false
 }
 
+func tipoYvalor (idpaquete int, 
+				 colaRetail []chat.Cola,
+				 colaPrioritario []chat.Cola,
+				 colaNormal []chat.Cola) (string, int){
+
+	var tipo string
+	var valor int
+	for _, cola := range colaRetail {
+		if cola.Idpaquete == idpaquete {
+			tipo = cola.Tipo
+			valor = cola.Valor
+            return tipo, valor
+        }
+	}
+	for _, cola := range colaPrioritario {
+		if cola.Idpaquete == idpaquete {
+			tipo = cola.Tipo
+			valor = cola.Valor
+            return tipo, valor
+        }
+	}
+	for _, cola := range colaNormal {
+		if cola.Idpaquete == idpaquete {
+			tipo = cola.Tipo
+			valor = cola.Valor
+            return tipo, valor
+        }
+	}
+
+	return tipo, valor
+}
+
 func procesarEntregas(paquetesProcesados []string, 
 				   	 paqueteEnMarcha []chat.PaqueteEnMarcha, 
-					 ColaRetail []chat.Cola,
-					 ColaPrioritario []chat.Cola,
-					 ColaNormal []chat.Cola) ([]string , []Entrega) {
+					 colaRetail []chat.Cola,
+					 colaPrioritario []chat.Cola,
+					 colaNormal []chat.Cola) ([]string , []Entrega) {
 	
 	var entregasProcesadas []Entrega
 
@@ -77,9 +107,11 @@ func procesarEntregas(paquetesProcesados []string,
 			
 			paquetesProcesados = append(paquetesProcesados, Paquete.Idpaquete)
 
+			tipo, valor = tipoYvalor(Paquete.Idpaquete, colaRetail, colaPrioritario, colaNormal ) 
+
 			ent := &Entrega{Id_paquete: Paquete.Idpaquete, 
-							Tipo: "Malo, cambiar", 
-							Valor: 0, 
+							Tipo: tipo, 
+							Valor: valor, 
 							Origen: Paquete.Origen, 
 							Destino: Paquete.Destino,
 							Intentos: IntIntentos,
@@ -183,13 +215,11 @@ func main() {
 																	  s.ColaNormal,
 																	)
 
-			fmt.Println(s.PaquetesEnMarcha)
-			fmt.Println(paquetesProcesados)
-			fmt.Println(entregasProcesadas)
-			fmt.Println("____________")
-
-			//procesarEntregas(paquetesProcesados, s.PaquetesEnMarcha)
-						
+			fmt.Println(s.PaquetesEnMarcha) //Borrar................
+			fmt.Println(paquetesProcesados) //Borrar................
+			fmt.Println(entregasProcesadas) //Borrar................
+			fmt.Println("____________") //Borrar................
+					
 
 
 			enviarRabbit(entregasProcesadas)
