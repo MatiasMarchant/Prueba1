@@ -50,7 +50,7 @@ func IntInArr(a int, arr []int) bool {
     return false
 }
 
-func procesarEntregas(paquetesProcesados []int, paqueteEnMarcha []chat.PaqueteEnMarcha){ ([]int , []Entrega){
+func procesarEntregas(paquetesProcesados []int, paqueteEnMarcha []chat.PaqueteEnMarcha) ([]int , []Entrega) {
 	
 	var entregasProcesadas []Entrega
 
@@ -66,7 +66,7 @@ func procesarEntregas(paquetesProcesados []int, paqueteEnMarcha []chat.PaqueteEn
 							Destino: Paquete.Destino,
 							Intentos: strconv.Atoi(Paquete.Intentos), 
 							Fecha_entrega: Paquete.Timestamp
-						}				
+						}		
 
 			entregasProcesadas = append(entregasProcesadas, ent)    		
 		}
