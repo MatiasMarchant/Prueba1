@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/MatiasMarchant/Prueba1/tree/master/chat"
+	//"github.com/MatiasMarchant/Prueba1/tree/master/chat"
 	"log"
 	"net"
 	"time"
@@ -10,12 +10,15 @@ import (
 	"google.golang.org/grpc"
 	"fmt"
 	//"github.com/streadway/amqp"
-	//"encoding/json"
+	"encoding/json"
 	
 	//"reflect" //-------------
+	"github.com/MatiasMarchant/Prueba1/tree/centos4/chat"
 )
 
-import chat "chat/chat.go"
+
+import chat "github.com/MatiasMarchant/Prueba1/tree/centos4/chat"
+
 
 type Entrega struct {
 	Id_paquete int
@@ -36,8 +39,12 @@ func procesarEntregas(paquetesProcesados []int, ColaRetail []chat.Cola){ //([]in
 
 		
 		
-		fmt.Println(len(Paquete))	
+		//fmt.Println(Paquete)	
+
+		slcB, _ := json.Marshal(Paquete)
+    	fmt.Println(string(slcB))
 		
+		//chat.Cola
 
 		//entregaProcesada := &Entrega{Id_paquete:int, Tipo:str, Valor:int, Origen:str, Destino:str, Intentos:int, Fecha_entrega:int}
 
