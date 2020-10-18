@@ -224,9 +224,7 @@ func main() {
 																	)
 
 			fmt.Println(s.PaquetesEnMarcha) //Borrar................
-			fmt.Println(s.ColaRetail)
-			fmt.Println(s.ColaPrioritario)
-			fmt.Println(s.ColaNormal)
+			fmt.Println(s.ListaRegistro)
 	
 			//fmt.Println(paquetesProcesados) //Borrar................
 			//fmt.Println(entregasProcesadas) //Borrar................
