@@ -49,10 +49,10 @@ func IntInArr(a int, arr []int) bool {
     return false
 }
 
-func procesarEntregas(paquetesProcesados []int, ColaRetail []chat.PaqueteEnMarcha){ //([]int , []Entrega){
+func procesarEntregas(paquetesProcesados []int, paqueteEnMarcha []chat.PaqueteEnMarcha){ //([]int , []Entrega){
 	
-	//fmt.Println(ColaRetail)	
-	for _, Paquete := range ColaRetail {
+	fmt.Println(paqueteEnMarcha)	
+	for _, Paquete := range paqueteEnMarcha {
 		fmt.Println(Paquete.Idpaquete)	
 	/*	if ((Paquete.Estado == "Recibido" || Paquete.Estado == "No Recibido" ) && !IntInArr(Paquete.Idpaquete, paquetesProcesados)) {
 			paquetesProcesados = append(paquetesProcesados, Paquete.Idpaquete)
