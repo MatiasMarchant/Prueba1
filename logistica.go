@@ -51,45 +51,23 @@ func IntInArr(a int, arr []int) bool {
 
 func procesarEntregas(paquetesProcesados []int, paqueteEnMarcha []chat.PaqueteEnMarcha){ //([]int , []Entrega){
 	
-	fmt.Println(paqueteEnMarcha)	
+	var entregasProcesadas []Entrega
+
 	for _, Paquete := range paqueteEnMarcha {
-		fmt.Println(Paquete.Idpaquete)	
-	/*	if ((Paquete.Estado == "Recibido" || Paquete.Estado == "No Recibido" ) && !IntInArr(Paquete.Idpaquete, paquetesProcesados)) {
+		if ((Paquete.Estado == "Recibido" || Paquete.Estado == "No Recibido" ) && !IntInArr(Paquete.Idpaquete, paquetesProcesados)) {
 			paquetesProcesados = append(paquetesProcesados, Paquete.Idpaquete)
 
-			ent := &Entrega{Id_paquete: , 
-							Tipo: Paquete.Idpaquete, 
+			ent := &Entrega{Id_paquete: Paquete.Idpaquete, 
+							Tipo: "Malo, cambiar", 
 							Valor: Paquete.Valor, 
 							Origen: Paquete.Origen, 
 							Destino: Paquete.Destino,
 							Intentos: Paquete.Intentos, 
-							Fecha_entrega: Paquete.Timestamp
-							}
+							Fecha_entrega: Paquete.Timestamp}
 
-    
-		}
-
-	Idpaquete     string
-	Estado        string
-	Idcamion      string
-	Idseguimiento string
-	Intentos      string
-	Origen        string
-	Destino       string
-	Timestamp     time.Time
-	
-
-	return paquetesProcesados, 
-*/
-	}
-
-
-
-
-
-	//iterar ColaRetail
-	
-	//return paquetesProcesados, entregasProcesadas
+			entregasProcesadas = append(entregasProcesadas, ent)    		}
+	}	
+	return paquetesProcesados, entregasProcesadas
 }
 
 
@@ -174,8 +152,14 @@ func main() {
 	go func() {
 		for {
 			time.Sleep(2 * time.Second)
-			//paquetesProcesados, entregasProcesadas = procesarEntregas(paquetesProcesados, s.ColaRetail)
-			procesarEntregas(paquetesProcesados, s.PaquetesEnMarcha)
+			
+			paquetesProcesados, entregasProcesadas = procesarEntregas(paquetesProcesados, s.ColaRetail)
+
+			fmt.Println(paquetesProcesados)
+			fmt.Println(entregasProcesadas)
+			fmt.Println("____________")
+
+			//procesarEntregas(paquetesProcesados, s.PaquetesEnMarcha)
 						
 
 
