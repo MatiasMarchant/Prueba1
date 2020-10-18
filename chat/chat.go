@@ -62,7 +62,7 @@ func (s *Server) ActualizarRegistroPaqueteCamionRetail(ctx context.Context, mess
 	indice := 0
 	contador := 0
 	for _, elem := range s.PaquetesEnMarcha {
-		if message.Idpaquete == elem.idpaquete {
+		if message.Idpaquete == elem.Idpaquete {
 			indice = contador
 		} else {
 			contador++
@@ -71,14 +71,14 @@ func (s *Server) ActualizarRegistroPaqueteCamionRetail(ctx context.Context, mess
 
 	// Agregar paquete modificado al final
 	paqueteModificado := PaqueteEnMarcha{
-		idpaquete:     message.Idpaquete,
-		estado:        message.Estado,
-		idcamion:      message.Idcamion,
-		idseguimiento: message.Seguimiento,
-		intentos:      message.Intentos,
-		origen:        message.Origen,
-		destino:       message.Destino,
-		timestamp:     time.Now(),
+		Idpaquete:     message.Idpaquete,
+		Estado:        message.Estado,
+		Idcamion:      message.Idcamion,
+		Idseguimiento: message.Seguimiento,
+		Intentos:      message.Intentos,
+		Origen:        message.Origen,
+		Destino:       message.Destino,
+		Timestamp:     time.Now(),
 	}
 
 	s.PaquetesEnMarcha = append(s.PaquetesEnMarcha, paqueteModificado)
@@ -143,14 +143,14 @@ func (s *Server) EntregarPaqueteCamionRetail(ctx context.Context, message *IdCam
 		}
 
 		nuevoPaquete := PaqueteEnMarcha{
-			idpaquete:     s.ColaRetail[indicemascaro].Idpaquete,
-			estado:        s.ColaRetail[indicemascaro].Estado,
-			idcamion:      message.Idcamion,
-			idseguimiento: s.ColaRetail[indicemascaro].Seguimiento,
-			intentos:      s.ColaRetail[indicemascaro].Intentos,
-			origen:        s.ColaRetail[indicemascaro].Origen,
-			destino:       s.ColaRetail[indicemascaro].Destino,
-			timestamp:     time.Time{},
+			Idpaquete:     s.ColaRetail[indicemascaro].Idpaquete,
+			Estado:        s.ColaRetail[indicemascaro].Estado,
+			Idcamion:      message.Idcamion,
+			Idseguimiento: s.ColaRetail[indicemascaro].Seguimiento,
+			Intentos:      s.ColaRetail[indicemascaro].Intentos,
+			Origen:        s.ColaRetail[indicemascaro].Origen,
+			Destino:       s.ColaRetail[indicemascaro].Destino,
+			Timestamp:     time.Time{},
 		}
 
 		// Quitar elemento mas caro de la cola
@@ -196,14 +196,14 @@ func (s *Server) EntregarPaqueteCamionRetail(ctx context.Context, message *IdCam
 		}
 
 		nuevoPaquete := PaqueteEnMarcha{
-			idpaquete:     s.ColaPrioritario[indicemascaro].Idpaquete,
-			estado:        s.ColaPrioritario[indicemascaro].Estado,
-			idcamion:      message.Idcamion,
-			idseguimiento: s.ColaPrioritario[indicemascaro].Seguimiento,
-			intentos:      s.ColaPrioritario[indicemascaro].Intentos,
-			origen:        s.ColaPrioritario[indicemascaro].Origen,
-			destino:       s.ColaPrioritario[indicemascaro].Destino,
-			timestamp:     time.Time{},
+			Idpaquete:     s.ColaPrioritario[indicemascaro].Idpaquete,
+			Estado:        s.ColaPrioritario[indicemascaro].Estado,
+			Idcamion:      message.Idcamion,
+			Idseguimiento: s.ColaPrioritario[indicemascaro].Seguimiento,
+			Intentos:      s.ColaPrioritario[indicemascaro].Intentos,
+			Origen:        s.ColaPrioritario[indicemascaro].Origen,
+			Destino:       s.ColaPrioritario[indicemascaro].Destino,
+			Timestamp:     time.Time{},
 		}
 
 		// Quitar elemento mas caro de la cola
@@ -237,14 +237,14 @@ func (s *Server) ActualizarRegistroPaqueteCamionNormal(ctx context.Context, mess
 
 	// Agregar paquete modificado al final
 	paqueteModificado := PaqueteEnMarcha{
-		idpaquete:     message.Idpaquete,
-		estado:        message.Estado,
-		idcamion:      message.Idcamion,
-		idseguimiento: message.Seguimiento,
-		intentos:      message.Intentos,
-		origen:        message.Origen,
-		destino:       message.Destino,
-		timestamp:     time.Now(),
+		Idpaquete:     message.Idpaquete,
+		Estado:        message.Estado,
+		Idcamion:      message.Idcamion,
+		Idseguimiento: message.Seguimiento,
+		Intentos:      message.Intentos,
+		Origen:        message.Origen,
+		Destino:       message.Destino,
+		Timestamp:     time.Now(),
 	}
 
 	s.PaquetesEnMarcha = append(s.PaquetesEnMarcha, paqueteModificado)
@@ -309,14 +309,14 @@ func (s *Server) EntregarPaqueteCamionNormal(ctx context.Context, message *IdCam
 		}
 
 		nuevoPaquete := PaqueteEnMarcha{
-			idpaquete:     s.ColaPrioritario[indicemascaro].Idpaquete,
-			estado:        s.ColaPrioritario[indicemascaro].Estado,
-			idcamion:      message.Idcamion,
-			idseguimiento: s.ColaPrioritario[indicemascaro].Seguimiento,
-			intentos:      s.ColaPrioritario[indicemascaro].Intentos,
-			origen:        s.ColaPrioritario[indicemascaro].Origen,
-			destino:       s.ColaPrioritario[indicemascaro].Destino,
-			timestamp:     time.Time{},
+			Idpaquete:     s.ColaPrioritario[indicemascaro].Idpaquete,
+			Estado:        s.ColaPrioritario[indicemascaro].Estado,
+			Idcamion:      message.Idcamion,
+			Idseguimiento: s.ColaPrioritario[indicemascaro].Seguimiento,
+			Intentos:      s.ColaPrioritario[indicemascaro].Intentos,
+			Origen:        s.ColaPrioritario[indicemascaro].Origen,
+			Destino:       s.ColaPrioritario[indicemascaro].Destino,
+			Timestamp:     time.Time{},
 		}
 
 		// Quitar elemento mas caro de la cola
@@ -362,14 +362,14 @@ func (s *Server) EntregarPaqueteCamionNormal(ctx context.Context, message *IdCam
 		}
 
 		nuevoPaquete := PaqueteEnMarcha{
-			idpaquete:     s.ColaNormal[indicemascaro].Idpaquete,
-			estado:        s.ColaNormal[indicemascaro].Estado,
-			idcamion:      message.Idcamion,
-			idseguimiento: s.ColaNormal[indicemascaro].Seguimiento,
-			intentos:      s.ColaNormal[indicemascaro].Intentos,
-			origen:        s.ColaNormal[indicemascaro].Origen,
-			destino:       s.ColaNormal[indicemascaro].Destino,
-			timestamp:     time.Time{},
+			Idpaquete:     s.ColaNormal[indicemascaro].Idpaquete,
+			Estado:        s.ColaNormal[indicemascaro].Estado,
+			Idcamion:      message.Idcamion,
+			Idseguimiento: s.ColaNormal[indicemascaro].Seguimiento,
+			Intentos:      s.ColaNormal[indicemascaro].Intentos,
+			Origen:        s.ColaNormal[indicemascaro].Origen,
+			Destino:       s.ColaNormal[indicemascaro].Destino,
+			Timestamp:     time.Time{},
 		}
 
 		// Quitar elemento mas caro de la cola
