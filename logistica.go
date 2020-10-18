@@ -12,7 +12,7 @@ import (
 	//"github.com/streadway/amqp"
 	"encoding/json"
 	
-	//"reflect" //-------------
+	"reflect" //-------------
 
 )
 
@@ -42,7 +42,8 @@ func procesarEntregas(paquetesProcesados []int, ColaRetail []chat.Cola){ //([]in
 		//fmt.Println(Paquete)	
 
 		slcB, _ := json.Marshal(Paquete)
-    	fmt.Println(string(slcB))
+		fmt.Println(slcB)
+		fmt.Println(reflect.TypeOf(slcB))
 		
 		//chat.Cola
 
