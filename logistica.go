@@ -52,12 +52,12 @@ func procesarEntregas(paquetesProcesados []int, ColaRetail []chat.Cola){ //([]in
 
 		
 		
-		//fmt.Println(Paquete)	
+		fmt.Println(Paquete.idpaquete)	
 
-		slcB, _ := json.Marshal(Paquete)
-		fmt.Println(slcB)
-		fmt.Println(reflect.TypeOf(slcB))
-		fmt.Println(string(slcB))
+		//slcB, _ := json.Marshal(Paquete)
+		//fmt.Println(slcB)
+		//fmt.Println(reflect.TypeOf(slcB))
+		//fmt.Println(string(slcB))
 		
 		//var test Cola	
 		//json.Unmarshal([]byte(Paquete), &test)
@@ -169,12 +169,6 @@ func main() {
 			//paquetesProcesados, entregasProcesadas = procesarEntregas(paquetesProcesados, s.ColaRetail)
 			procesarEntregas(paquetesProcesados, s.ColaRetail)
 						
-
-			fooType := reflect.TypeOf(s)
-			for i := 0; i < fooType.NumMethod(); i++ {
-				method := fooType.Method(i)
-				fmt.Println(method.Name)
-			}
 
 
 			//enviarRabbit(entregasProcesadas)
