@@ -15,7 +15,7 @@ import (
 	//"reflect" //-------------
 )
 
-import chat "chat/chat.go"
+import chat "Prueba1/chat/chat.go"
 
 type Entrega struct {
 	Id_paquete int
