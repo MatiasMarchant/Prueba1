@@ -42,17 +42,12 @@ type Cola struct {
 
 func procesarEntregas(paquetesProcesados []int, ColaRetail []chat.Cola){ //([]int , []Entrega){
 	
-	fmt.Println(Paquete)	
-	for _, PaqueteJs := range ColaRetail {
+	fmt.Println(ColaRetail)	
+	for _, Paquete := range ColaRetail {
 
-		
-
-		var paquete Cola
-		err := json.Unmarshal(PaqueteJs, &paquete)
-		if err != nil {
-			log.Println(err)
+		for _, i := range Paquete {
+			fmt.Println(i)	
 		}
-		fmt.Println(paquete.idpaquete, paquete.tipo, paquete.estado)
 
 		//entregaProcesada := &Entrega{Id_paquete:int, Tipo:str, Valor:int, Origen:str, Destino:str, Intentos:int, Fecha_entrega:int}
 
