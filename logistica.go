@@ -60,7 +60,7 @@ func InArr(id string, arr []string) bool {
     return false
 }
 
-func tipoYvalor (idpaquete int, 
+func tipoYvalor (idpaquete string, 
 				 colaRetail []chat.Cola,
 				 colaPrioritario []chat.Cola,
 				 colaNormal []chat.Cola) (string, int){
