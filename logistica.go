@@ -138,7 +138,9 @@ func main() {
 		for {
 			time.Sleep(10 * time.Second)
 			//paquetesProcesados, entregasProcesadas = procesarEntregas(paquetesProcesados, s.ColaRetail)
+			fmt.Println(s.ColaRetail)
 			procesarEntregas(paquetesProcesados, s.ColaRetail)
+						
 			//enviarRabbit(entregasProcesadas)
 		}
 	}()
