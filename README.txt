@@ -1,4 +1,4 @@
-########## Sistema Logístico ##########
+########## Sistema Finanzas ##########
 
 Integrantes:
 	Nicolás Durán 201673513-5
